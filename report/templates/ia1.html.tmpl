@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>SPML IA-1</title>
+<style>{{STYLE}}</style></head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="uni">K. J. Somaiya School of Engineering</div>
+  <div class="dept">Somaiya Vidyavihar University &middot; Department of Artificial Intelligence &amp; Data Science</div>
+  <div class="dept">Honour Programme in Applied Cyber Security</div>
+  <div class="title">Breaking Privacy in Federated Learning:<br>A Gradient-Inversion Attack and a Comparative Study of Privacy Defences</div>
+  <div class="sub">Internal Assessment 1 &mdash; Problem Formulation and Preliminary Implementation</div>
+  <div class="meta">
+    <div><b>Course:</b> Security and Privacy for Machine Learning (216H17C701)</div>
+    <div><b>Name:</b> Suyash Humne</div>
+    <div><b>Roll No.:</b> 16014223085</div>
+    <div><b>Batch:</b> B2 &middot; Semester VII &middot; A.Y. 2026&ndash;27</div>
+    <div><b>Submission type:</b> Individual research work</div>
+  </div>
+</div>
+
+<h1>Breaking Privacy in Federated Learning</h1>
+<div class="small">IA-1 &middot; Problem Formulation and Preliminary Implementation &middot; Suyash Humne (16014223085)</div>
+
+<div class="abstract">
+<b>Abstract.</b> Federated learning (FL) is widely promoted on the premise that
+"data never leaves the device" &mdash; participants share only model gradients,
+not their raw data. This project interrogates that premise directly. We
+implement a <b>gradient-inversion attack</b> in which an honest-but-curious
+server reconstructs a client's private training image, pixel-by-pixel, from the
+single gradient the client uploads. Using the cosine-similarity gradient-matching
+method of Geiping&nbsp;et&nbsp;al. (2020) with total-variation regularisation and
+analytic label recovery (iDLG), our attacker {{HERO_LABEL_OK}} recovers the
+private label and reconstructs the image at <b>{{HERO_PSNR}}&nbsp;dB PSNR</b>
+from only {{HERO_FLOATS}} gradient values, with no access to the pixels. The
+attack is the lens through which the five course modules are unified: it
+motivates and is measured against the privacy defences of Differential Privacy
+(Module&nbsp;2), Local Differential Privacy (Module&nbsp;3), Privacy-Preserving
+Data Mining / anonymity (Module&nbsp;4) and Compressive Privacy (Module&nbsp;5),
+with Module&nbsp;1 providing the threat model. This IA-1 report establishes the
+problem, maps it to all five modules, prepares the dataset, and demonstrates the
+working attack as the preliminary implementation; IA-2 completes the defence
+comparison and evaluation.
+</div>
+
+<h2>1&nbsp;&nbsp;Problem Definition and Significance</h2>
+
+<h3>1.1&nbsp;&nbsp;Context and motivation</h3>
+<p>Machine learning increasingly trains on data that is legally and ethically
+sensitive &mdash; medical records, financial histories, biometric images.
+<b>Federated learning</b> (McMahan et&nbsp;al., 2017) was introduced precisely to
+make such training privacy-respecting: instead of centralising raw data, each
+participant (a hospital, a phone, a bank) keeps its data locally, computes the
+gradient of the shared model's loss on that local data, and transmits only the
+gradient to a central server, which aggregates the gradients to update the global
+model. The marketing claim is simple and appealing: <i>your data never leaves
+your device.</i></p>
+<p>The security question this project asks is equally simple: <b>is a gradient
+actually safe to share?</b> A gradient is a deterministic function of the private
+data and the known model parameters. If that function is even partially
+invertible, then "sharing a gradient" leaks "sharing the data" &mdash; and the
+entire privacy argument for federated learning collapses. This is not a
+hypothetical: the 2019&ndash;2022 literature on <i>deep leakage from gradients</i>
+established that gradients can be inverted to recover training inputs with
+alarming fidelity.</p>
+
+<h3>1.2&nbsp;&nbsp;Problem statement</h3>
+<div class="callout">
+Given a neural network with known architecture and parameters, and the gradient
+of its loss computed on a client's single private training example, can an
+honest-but-curious server <b>reconstruct that private example</b> (its pixels and
+its label) without ever observing the data &mdash; and which privacy mechanisms
+from the course syllabus can measurably prevent or degrade this reconstruction,
+and at what cost to model utility?
+</div>
+
+<h3>1.3&nbsp;&nbsp;Objectives</h3>
+<ol>
+<li><b>Attack.</b> Implement a working gradient-inversion attack that reconstructs
+a private image and recovers its label from a shared gradient, in a simulated
+federated-learning setting.</li>
+<li><b>Quantify.</b> Measure reconstruction fidelity with standard image-quality
+metrics (MSE, PSNR, SSIM, LPIPS) and extend the attack from a single image to
+small batches to map its limits.</li>
+<li><b>Defend.</b> Implement and evaluate four defence families drawn from the
+five syllabus modules &mdash; differential privacy, local differential privacy,
+compressive (sparsification / quantization) privacy, and anonymity-based
+aggregation &mdash; against the same attack.</li>
+<li><b>Trade-off.</b> Characterise the privacy&ndash;utility trade-off of each
+defence: how much reconstruction quality falls versus how much model accuracy is
+sacrificed.</li>
+<li><b>Corroborate.</b> Add a second, complementary privacy attack
+(<b>membership inference</b>, LiRA) to measure leakage quantitatively and to
+audit the differential-privacy guarantee empirically.</li>
+</ol>
+
+<h3>1.4&nbsp;&nbsp;Scope and expected outcome</h3>
+<p>The scope is the <i>honest-but-curious server</i> threat model on image data
+(CIFAR-10 as a public, reproducible stand-in for private image data such as
+medical scans). Malicious-server attacks that modify the model architecture
+(e.g. <i>Robbing the Fed</i>) are discussed analytically and used for
+cross-validation but are out of the implementation scope for IA-1. The expected
+outcome is a reproducible benchmark showing (a)&nbsp;that gradient sharing leaks
+private data, and (b)&nbsp;a ranked, measured comparison of the syllabus defences
+against that leak. This is, to our knowledge, not available as a single unified
+study across all four defence families under one attack &mdash; which is the
+individual research contribution (Section&nbsp;7).</p>
+
+<h2>2&nbsp;&nbsp;Mapping to the Five Course Modules</h2>
+<p>The problem was chosen specifically because a single attack&ndash;defence
+pipeline exercises every module of the syllabus. Module&nbsp;1 supplies the
+threat model and the attack; Modules&nbsp;2&ndash;5 each supply a defence that is
+implemented and measured against that attack.</p>
+
+<table>
+<tr><th style="width:16%">Module</th><th style="width:30%">Syllabus content</th><th>Role in this project</th><th style="width:13%">Treatment</th></tr>
+<tr><td><b>M1 &mdash; Privacy Considerations in ML</b></td>
+<td>Privacy complications in the AI era; threats and attacks for ML systems;
+privacy-preserving learning from data.</td>
+<td>Provides the <b>threat model</b> (honest-but-curious server, what it knows and
+receives) and the <b>attack taxonomy</b>. The gradient-inversion attack is a
+direct instance of "threats and attacks for ML systems". Motivates why sharing
+gradients &ne; privacy.</td>
+<td>Implemented (the attack) + analysed</td></tr>
+
+<tr><td><b>M2 &mdash; Differential Privacy</b></td>
+<td>Mechanism and properties of DP; applying DP in ML; differentially private
+supervised/unsupervised learning.</td>
+<td><b>Core defence.</b> DP-SGD clips and adds calibrated Gaussian noise to
+gradients, bounding any single example's influence &mdash; exactly the influence
+the attack exploits. We sweep the noise/&epsilon; and measure both reconstruction
+collapse and the membership-inference bound it certifies.</td>
+<td>Implemented + evaluated</td></tr>
+
+<tr><td><b>M3 &mdash; Local Differential Privacy</b></td>
+<td>LDP and its mechanisms; advanced LDP; the piecewise mechanism; LDP with
+na&iuml;ve-Bayes classification.</td>
+<td>Defence under a <b>stronger trust model</b>: each client randomises its own
+update <i>before</i> upload, assuming no trusted server. We contrast LDP's
+per-client noise and its larger utility cost against central DP, directly
+illustrating the local-vs-central distinction from the module.</td>
+<td>Implemented + evaluated</td></tr>
+
+<tr><td><b>M4 &mdash; Privacy-Preserving Data Mining</b></td>
+<td>Protecting privacy by modifying the input / while publishing data;
+k-anonymity and beyond; modifying the mining output.</td>
+<td>The FL aggregate is framed as an <b>anonymity-set</b> argument: a client is
+"hidden among k" in secure aggregation, analogous to k-anonymity. We analyse how
+batch averaging and aggregation obscure individual gradients and why this is
+necessary but not sufficient, connecting "protecting privacy while publishing"
+to gradient publishing.</td>
+<td>Implemented (aggregation) + analysed</td></tr>
+
+<tr><td><b>M5 &mdash; Compressive Privacy</b></td>
+<td>Mechanisms of compressive privacy; using compressive privacy for ML; the
+accuracy of the utility task.</td>
+<td>Defence by <b>dimensionality reduction / compression</b> of the shared
+gradient: sparsification (gradient pruning / Top-k) and bit-depth quantization
+discard information the attacker needs. We sweep compression strength and plot
+the accuracy-of-the-utility-task against reconstruction quality &mdash; precisely
+the compressive-privacy trade-off.</td>
+<td>Implemented + evaluated</td></tr>
+</table>
+<div class="tcap">Mapping of the research problem to all five syllabus modules.</div>
+
+<h2 class="sec-break">3&nbsp;&nbsp;Conceptual Understanding and Methodology</h2>
+
+<h3>3.1&nbsp;&nbsp;Why a gradient leaks data</h3>
+<p>For a model with parameters &theta; and loss <i>L</i>, a client holding a
+private example (<i>x</i>,&nbsp;<i>y</i>) uploads the gradient
+<i>g</i>&nbsp;=&nbsp;&nabla;<sub>&theta;</sub><i>L</i>(<i>f</i><sub>&theta;</sub>(<i>x</i>),&nbsp;<i>y</i>).
+The attacker knows &theta;, <i>f</i> and <i>L</i>, and receives <i>g</i>. It
+reconstructs the input by searching for a synthetic image
+<i>x&#770;</i> whose gradient <i>g&#770;</i> best matches the observed <i>g</i>:</p>
+<div class="eq">x&#770;* = arg min<sub>x&#770;</sub> &nbsp; D(&nabla;<sub>&theta;</sub>L(f<sub>&theta;</sub>(x&#770;), y&#770;),&nbsp; g) &nbsp;+&nbsp; &alpha;&middot;TV(x&#770;)</div>
+<p>Intuitively, the gradient encodes "how each pixel of the input would need to
+change to reduce the loss", which is a rich, differentiable fingerprint of the
+input itself. The reconstruction is an optimisation <i>over the input</i> while
+the network weights are held fixed.</p>
+
+<h3>3.2&nbsp;&nbsp;Design choices (and why)</h3>
+<ul>
+<li><b>Direction, not magnitude &mdash; cosine loss.</b> We match gradients by
+<i>negative cosine similarity</i>, D(&middot;)&nbsp;=&nbsp;1&nbsp;&minus;&nbsp;cos(g&#770;,&nbsp;g),
+rather than Euclidean distance. Cosine matching is magnitude-invariant and far
+more stable than the original DLG L<sub>2</sub> objective, especially as the
+model trains and gradient norms shrink (Geiping et&nbsp;al., 2020).</li>
+<li><b>Total-variation prior.</b> We add &alpha;&middot;TV(<i>x&#770;</i>), the
+anisotropic total variation of the candidate, which penalises high-frequency
+noise and pushes the reconstruction toward the piecewise-smooth statistics of
+natural images.</li>
+<li><b>Analytic label recovery (iDLG).</b> The ground-truth label need not be
+optimised: for single-sample cross-entropy, the class whose row of the final
+layer's weight-gradient has negative sign is the true label. We read it off
+directly, which removes a major source of instability.</li>
+<li><b>Smooth activations, untrained network.</b> A small LeNet with
+<i>Sigmoid</i> activations (not ReLU) and a freshly initialised (untrained)
+network leak the cleanest reconstructions &mdash; the easiest, clearest regime
+for the demonstration, and the honest worst case for the defender.</li>
+<li><b>Restarts + group consistency.</b> Reconstruction is seed-sensitive, so we
+run several random restarts and take a pixel-wise consensus (median) over
+candidates &mdash; the near-free quality trick from GradInversion.</li>
+</ul>
+
+<h3>3.3&nbsp;&nbsp;Workflow</h3>
+<div class="fig">
+<svg width="620" height="250" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, sans-serif" font-size="11">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8f2b30"/></marker></defs>
+  <rect x="10" y="30" width="180" height="150" rx="7" fill="#f3f6fa" stroke="#4a6" stroke-width="1.5"/>
+  <text x="100" y="52" text-anchor="middle" font-weight="700" fill="#2a7">HOSPITAL CLIENT</text>
+  <text x="100" y="78" text-anchor="middle">holds private image x</text>
+  <text x="100" y="98" text-anchor="middle">computes gradient g</text>
+  <text x="100" y="118" text-anchor="middle">of loss on (x, y)</text>
+  <rect x="30" y="134" width="140" height="30" rx="4" fill="#dff0e3" stroke="#4a6"/>
+  <text x="100" y="153" text-anchor="middle" font-size="10">uploads ONLY g</text>
+
+  <line x1="190" y1="149" x2="430" y2="149" stroke="#8f2b30" stroke-width="2" marker-end="url(#a)"/>
+  <text x="310" y="140" text-anchor="middle" fill="#8f2b30" font-size="9.5">gradient g (no pixels)</text>
+
+  <rect x="430" y="30" width="180" height="150" rx="7" fill="#fcf3f3" stroke="#b0353a" stroke-width="1.5"/>
+  <text x="520" y="52" text-anchor="middle" font-weight="700" fill="#b0353a">CURIOUS SERVER</text>
+  <text x="520" y="78" text-anchor="middle">1. recover label (iDLG)</text>
+  <text x="520" y="98" text-anchor="middle">2. optimise x&#770; to</text>
+  <text x="520" y="116" text-anchor="middle">match g (cosine+TV)</text>
+  <rect x="450" y="132" width="140" height="32" rx="4" fill="#f7dede" stroke="#b0353a"/>
+  <text x="520" y="152" text-anchor="middle" font-size="10">reconstructs x&#770; &asymp; x</text>
+
+  <text x="310" y="210" text-anchor="middle" fill="#444" font-size="10">Defences (Modules 2&ndash;5) transform g before upload &rarr; degrade x&#770;</text>
+  <line x1="310" y1="164" x2="310" y2="196" stroke="#999" stroke-width="1.2" stroke-dasharray="3,3"/>
+</svg>
+<div class="cap">End-to-end attack workflow. Defences act on the gradient in transit and are measured by how much they degrade the server's reconstruction.</div>
+</div>
+
+<h2>4&nbsp;&nbsp;Dataset Identification and Preliminary Preparation</h2>
+<table>
+<tr><th style="width:28%">Field</th><th>Value</th></tr>
+<tr><td>Dataset</td><td>CIFAR-10 (60,000 32&times;32 RGB images, 10 classes)</td></tr>
+<tr><td>Source / URL</td><td>https://www.cs.toronto.edu/~kriz/cifar.html (Krizhevsky, 2009)</td></tr>
+<tr><td>Collection method</td><td>Curated subset of the 80-million-tiny-images corpus; publicly released for research.</td></tr>
+<tr><td>License / usage</td><td>Released for research use (MIT-maintained redistribution). No personal or sensitive data; lawfully accessible, consistent with the IA data policy.</td></tr>
+<tr><td>Preprocessing</td><td>Per-channel normalisation (mean = [0.4914, 0.4822, 0.4465], std = [0.2470, 0.2435, 0.2616]); cached as tensors for reproducibility.</td></tr>
+<tr><td>Role of each split</td><td>A single image is the "private" client sample for the attack; a 5,000&ndash;8,000-image subset trains shadow/utility models for the defence and membership-inference experiments; the test split measures utility.</td></tr>
+<tr><td>Why suitable</td><td>Small enough to run many experiments on a 4&nbsp;GB GPU; a standard, reproducible benchmark in the gradient-leakage literature; a faithful public stand-in for private image data (e.g. medical scans) without using any real sensitive data.</td></tr>
+</table>
+<div class="tcap">Dataset provenance and preparation record.</div>
+<p class="small">A deliberate ethical choice: because the project is about <i>privacy</i>, it
+uses only a public, non-personal dataset. The medical framing in the motivation
+is illustrative; no real patient data is used or required.</p>
+
+<h2 class="sec-break">5&nbsp;&nbsp;Initial Implementation and Demonstration</h2>
+<p>The preliminary implementation is the <b>working attack</b>, run as a scripted
+one-round federated-learning demonstration (<span class="mono">src/federated_demo.py</span>).
+The client computes and "uploads" the gradient; the curious server recovers the
+label and reconstructs the pixels. Tools: Python&nbsp;3.13, PyTorch&nbsp;2.14
+(CUDA) on an NVIDIA GTX&nbsp;1650.</p>
+
+<div class="fig">
+<div class="two" style="max-width:420px;margin:0 auto;">
+  <div style="text-align:center"><img src="{{HERO_GT}}" style="width:150px;image-rendering:pixelated"><div class="small">original (private)</div></div>
+  <div style="text-align:center"><img src="{{HERO_IMG}}" style="width:150px;image-rendering:pixelated"><div class="small">server's reconstruction</div></div>
+</div>
+<div class="cap">The server reconstructs the client's private "{{HERO_CLASS}}" image from the
+gradient alone (PSNR {{HERO_PSNR}}&nbsp;dB, SSIM {{HERO_SSIM}}, LPIPS {{HERO_LPIPS}}),
+and {{HERO_LABEL_OK}} recovers the label as "{{HERO_REC_CLASS}}".</div>
+</div>
+
+<div class="callout">
+<b>Preliminary result.</b> From only <b>{{HERO_FLOATS}} gradient values</b> and
+zero access to the pixels, the honest-but-curious server reconstructed the private
+image at <b>{{HERO_PSNR}}&nbsp;dB PSNR</b> in {{HERO_SECONDS}}&nbsp;s. Sharing a
+gradient leaked the data.
+</div>
+
+<h4>Reconstruction gallery (additional samples)</h4>
+<div>{{GALLERY}}</div>
+<div class="small">Original &rarr; reconstruction for further CIFAR-10 samples, confirming the attack is not cherry-picked.</div>
+
+<h4>Core attack loop (excerpt)</h4>
+<pre>rec = 1 - cos(dummy_grad, true_grad)          # direction match (Geiping 2020)
+loss = rec + tv_weight * total_variation(dummy)
+loss.backward(); opt.step()                   # optimise the IMAGE, not the model
+# label recovered analytically from sign of last-layer gradient (iDLG)</pre>
+
+<h2>6&nbsp;&nbsp;Preliminary Evaluation, Limitations and Plan for IA-2</h2>
+<h3>6.1&nbsp;&nbsp;Observations</h3>
+<ul>
+<li>The attack reliably recovers the label (analytic, deterministic) and a
+high-fidelity image for a single untrained-network sample.</li>
+<li>Reconstruction quality is seed-sensitive; restarts + median consensus
+materially stabilise it.</li>
+<li>Evaluation measures adopted: MSE, PSNR, SSIM (structural) and LPIPS
+(perceptual) for reconstruction; accuracy/AUC and TPR@low-FPR for membership
+inference; achieved &epsilon; for the DP guarantee.</li>
+</ul>
+<h3>6.2&nbsp;&nbsp;Known limitations (to address in IA-2)</h3>
+<ul>
+<li>Single-image regime is the easiest case; batch reconstruction is harder and
+is being extended (sizes 1&rarr;4&rarr;8).</li>
+<li>LeNet has no BatchNorm, so the strongest known prior (BN-statistics matching)
+is not yet used; a BN variant is planned as an ablation.</li>
+<li>Defences are evaluated on this model scale; generalisation to deeper networks
+is discussed, not exhaustively measured.</li>
+</ul>
+<h3>6.3&nbsp;&nbsp;Plan for IA-2</h3>
+<ol>
+<li>Complete the four-defence privacy&ndash;utility sweep and the membership-inference
+DP audit (empirical vs analytical &epsilon;).</li>
+<li>Cross-validate the hand-written attack against the published <i>breaching</i>
+framework.</li>
+<li>Add the malicious-server contrast (Robbing-the-Fed) analytically.</li>
+<li>Assemble the final technical report and an IEEE-format paper draft.</li>
+</ol>
+
+<h2>7&nbsp;&nbsp;Individual Contribution Statement</h2>
+<p>All code, experiments, figures and analysis in this submission are my own
+individual work. My specific contributions are: (i)&nbsp;the unified
+attack&ndash;defence benchmark design that measures four distinct syllabus
+defence families against a single gradient-inversion attack &mdash; a comparison
+not previously assembled in one study; (ii)&nbsp;a from-scratch implementation of
+the cosine+TV+iDLG attack with restart-median group consistency;
+(iii)&nbsp;the privacy&ndash;utility evaluation protocol spanning reconstruction
+metrics and membership-inference auditing; and (iv)&nbsp;the full reproducible
+pipeline and documentation. External references are cited in Section&nbsp;8.</p>
+
+<h2>8&nbsp;&nbsp;References</h2>
+<div class="ref">[1] L. Zhu, Z. Liu, S. Han. "Deep Leakage from Gradients." <i>NeurIPS</i>, 2019.</div>
+<div class="ref">[2] B. Zhao, K. Mopuri, H. Bilen. "iDLG: Improved Deep Leakage from Gradients." <i>arXiv:2001.02610</i>, 2020.</div>
+<div class="ref">[3] J. Geiping, H. Bauermeister, H. Dr&ouml;ge, M. Moeller. "Inverting Gradients &mdash; How Easy Is It to Break Privacy in Federated Learning?" <i>NeurIPS</i>, 2020.</div>
+<div class="ref">[4] H. Yin et&nbsp;al. "See through Gradients: Image Batch Recovery via GradInversion." <i>CVPR</i>, 2021.</div>
+<div class="ref">[5] M. Abadi et&nbsp;al. "Deep Learning with Differential Privacy." <i>ACM CCS</i>, 2016.</div>
+<div class="ref">[6] N. Carlini et&nbsp;al. "Membership Inference Attacks From First Principles." <i>IEEE S&amp;P</i>, 2022.</div>
+<div class="ref">[7] B. McMahan et&nbsp;al. "Communication-Efficient Learning of Deep Networks from Decentralized Data." <i>AISTATS</i>, 2017.</div>
+<div class="ref">[8] K. Bonawitz et&nbsp;al. "Practical Secure Aggregation for Privacy-Preserving Machine Learning." <i>ACM CCS</i>, 2017.</div>
+<div class="ref">[9] R. Zhang et&nbsp;al. "A Survey on Gradient Inversion: Attacks, Defenses and Future Directions." <i>IJCAI</i>, 2022.</div>
+<div class="ref">[10] A. Krizhevsky. "Learning Multiple Layers of Features from Tiny Images." Tech. report, 2009.</div>
+
+</body></html>

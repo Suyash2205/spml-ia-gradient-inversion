@@ -1,0 +1,17 @@
+cd "E:/Extra work/spml-ia"
+PY=./.venv/Scripts/python
+log(){ echo "[$(date +%H:%M:%S)] $1" | tee -a results/rerun.log; }
+log "RERUN START"
+log "defense_sweep..."
+$PY -I src/run_defense_sweep.py --image-id 25 --iters 2500 --restarts 2 --util-epochs 12 >> results/rerun.log 2>&1 && log "defense_sweep OK" || log "defense_sweep FAIL"
+log "mia_undefended..."
+$PY -I src/attacks/membership_inference.py --shadows 32 --pool 5000 --epochs 40 --tag undefended >> results/rerun.log 2>&1 && log "mia_undefended OK" || log "mia_undefended FAIL"
+log "mia_dp_eps8..."
+$PY -I src/attacks/membership_inference.py --shadows 32 --pool 5000 --epochs 40 --dp-epsilon 8.0 --tag dp_eps8 >> results/rerun.log 2>&1 && log "mia_dp_eps8 OK" || log "mia_dp_eps8 FAIL"
+log "mia_dp_eps1..."
+$PY -I src/attacks/membership_inference.py --shadows 32 --pool 5000 --epochs 40 --dp-epsilon 1.0 --tag dp_eps1 >> results/rerun.log 2>&1 && log "mia_dp_eps1 OK" || log "mia_dp_eps1 FAIL"
+log "make_video..."
+$PY -I src/make_video.py >> results/rerun.log 2>&1 && log "make_video OK" || log "make_video FAIL"
+log "build_reports..."
+$PY -I src/build_reports.py >> results/rerun.log 2>&1 && log "build_reports OK" || log "build_reports FAIL"
+log "RERUN DONE"

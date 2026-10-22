@@ -1,0 +1,16 @@
+{
+  "image_id": 25,
+  "true_class": "frog",
+  "recovered_class": "frog",
+  "label_correct": true,
+  "metrics": {
+    "mse": 0.003523614490404725,
+    "psnr_db": 24.530116127027725,
+    "ssim": 0.8981378078460693,
+    "lpips": 0.013253690674901009
+  },
+  "iters": 4000,
+  "restarts": 4,
+  "seconds": 151.55634450912476,
+  "gradient_floats_uploaded": 19438
+}

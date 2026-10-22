@@ -1,0 +1,200 @@
+[03:38:48] RERUN START
+[03:38:48] defense_sweep...
+E:\Extra work\spml-ia\.venv\Lib\site-packages\torchvision\models\_utils.py:207: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+E:\Extra work\spml-ia\.venv\Lib\site-packages\torchvision\models\_utils.py:222: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+
+=== defence: gaussian (Module 2: Differential Privacy) ===
+  strength=0.0: acc=0.601 PSNR=24.40 SSIM=0.897319495677948 LPIPS=0.013353831134736538
+  strength=0.001: acc=0.6081 PSNR=23.08 SSIM=0.8530867099761963 LPIPS=0.019757743924856186
+  strength=0.01: acc=0.4958 PSNR=8.81 SSIM=0.09462171792984009 LPIPS=0.3202884793281555
+  strength=0.05: acc=0.3749 PSNR=7.04 SSIM=0.03665244206786156 LPIPS=0.4048612713813782
+  strength=0.1: acc=0.3229 PSNR=6.69 SSIM=0.024896347895264626 LPIPS=0.3664810061454773
+
+=== defence: prune (Module 5: Compressive Privacy (sparsification)) ===
+  strength=0.0: acc=0.6134 PSNR=24.41 SSIM=0.8974125385284424 LPIPS=0.01330818235874176
+  strength=0.5: acc=0.6004 PSNR=23.92 SSIM=0.8892521858215332 LPIPS=0.012977919541299343
+  strength=0.7: acc=0.591 PSNR=20.97 SSIM=0.781376302242279 LPIPS=0.026643047109246254
+  strength=0.9: acc=0.5738 PSNR=14.08 SSIM=0.24363718926906586 LPIPS=0.1710573136806488
+  strength=0.99: acc=0.4398 PSNR=9.60 SSIM=0.026575317606329918 LPIPS=0.3371506333351135
+
+=== defence: quantize (Module 5: Compressive Privacy (quantization)) ===
+  strength=8: acc=0.6143 PSNR=24.39 SSIM=0.8970000147819519 LPIPS=0.013338765129446983
+  strength=6: acc=0.6184 PSNR=24.33 SSIM=0.895597517490387 LPIPS=0.013778626918792725
+  strength=4: acc=0.618 PSNR=23.60 SSIM=0.8761218190193176 LPIPS=0.01887858286499977
+  strength=2: acc=0.4368 PSNR=14.81 SSIM=0.43594253063201904 LPIPS=0.10917089134454727
+
+=== defence: local_dp (Module 3: Local Differential Privacy) ===
+  strength=0.0: acc=0.605 PSNR=24.40 SSIM=0.8972516059875488 LPIPS=0.013420553877949715
+  strength=0.001: acc=0.6136 PSNR=23.08 SSIM=0.8529975414276123 LPIPS=0.01976218819618225
+  strength=0.01: acc=0.4966 PSNR=8.81 SSIM=0.09474408626556396 LPIPS=0.3209950029850006
+  strength=0.05: acc=0.3739 PSNR=7.03 SSIM=0.03526557981967926 LPIPS=0.41257545351982117
+  strength=0.1: acc=0.3228 PSNR=6.70 SSIM=0.02449704520404339 LPIPS=0.375657856464386
+
+[done] wrote results/defense_sweep/metrics.json
+[done] wrote results/defense_sweep/privacy_utility.png
+[03:55:52] defense_sweep OK
+[03:55:52] mia_undefended...
+[lira] training 32 shadow models on 5000 examples (40 epochs each) device=cuda
+  shadow 1/32 done
+  shadow 2/32 done
+  shadow 3/32 done
+  shadow 4/32 done
+  shadow 5/32 done
+  shadow 6/32 done
+  shadow 7/32 done
+  shadow 8/32 done
+  shadow 9/32 done
+  shadow 10/32 done
+  shadow 11/32 done
+  shadow 12/32 done
+  shadow 13/32 done
+  shadow 14/32 done
+  shadow 15/32 done
+  shadow 16/32 done
+  shadow 17/32 done
+  shadow 18/32 done
+  shadow 19/32 done
+  shadow 20/32 done
+  shadow 21/32 done
+  shadow 22/32 done
+  shadow 23/32 done
+  shadow 24/32 done
+  shadow 25/32 done
+  shadow 26/32 done
+  shadow 27/32 done
+  shadow 28/32 done
+  shadow 29/32 done
+  shadow 30/32 done
+  shadow 31/32 done
+  shadow 32/32 done
+[lira] results: {
+  "LiRA": {
+    "auc": 0.8926718399999999,
+    "tpr_at_0.1pct": 0.0032,
+    "tpr_at_1pct": 0.176
+  },
+  "Yeom loss-threshold": {
+    "auc": 0.82887304,
+    "tpr_at_0.1pct": 0.003065830721003135,
+    "tpr_at_1pct": 0.030658307210031353
+  }
+}
+[03:58:36] mia_undefended OK
+[03:58:36] mia_dp_eps8...
+E:\Extra work\spml-ia\.venv\Lib\site-packages\opacus\privacy_engine.py:98: UserWarning: Secure RNG turned off. This is perfectly fine for experimentation as it allows for much faster training performance, but remember to turn it on and retrain one last time before production with ``secure_mode`` turned on.
+  warnings.warn(
+E:\Extra work\spml-ia\.venv\Lib\site-packages\opacus\accountants\analysis\rdp.py:332: UserWarning: Optimal order is the largest alpha. Please consider expanding the range of alphas to get a tighter privacy bound.
+  warnings.warn(
+<sys>:0: UserWarning: Full backward hook is firing when gradients are computed with respect to module outputs since no inputs require gradients. See https://docs.pytorch.org/docs/main/generated/torch.nn.Module.html#torch.nn.Module.register_full_backward_hook for more details.
+[lira] training 32 shadow models on 5000 examples (40 epochs each) device=cuda
+  shadow 1/32 done
+  shadow 2/32 done
+  shadow 3/32 done
+  shadow 4/32 done
+  shadow 5/32 done
+  shadow 6/32 done
+  shadow 7/32 done
+  shadow 8/32 done
+  shadow 9/32 done
+  shadow 10/32 done
+  shadow 11/32 done
+  shadow 12/32 done
+  shadow 13/32 done
+  shadow 14/32 done
+  shadow 15/32 done
+  shadow 16/32 done
+  shadow 17/32 done
+  shadow 18/32 done
+  shadow 19/32 done
+  shadow 20/32 done
+  shadow 21/32 done
+  shadow 22/32 done
+  shadow 23/32 done
+  shadow 24/32 done
+  shadow 25/32 done
+  shadow 26/32 done
+  shadow 27/32 done
+  shadow 28/32 done
+  shadow 29/32 done
+  shadow 30/32 done
+  shadow 31/32 done
+  shadow 32/32 done
+[lira] results: {
+  "LiRA": {
+    "auc": 0.55346672,
+    "tpr_at_0.1pct": 0.0004,
+    "tpr_at_1pct": 0.0112
+  },
+  "Yeom loss-threshold": {
+    "auc": 0.54643816,
+    "tpr_at_0.1pct": 0.0003333333333333334,
+    "tpr_at_1pct": 0.0068
+  }
+}
+[lira] target model DP epsilon achieved = 7.998
+[04:01:30] mia_dp_eps8 OK
+[04:01:30] mia_dp_eps1...
+E:\Extra work\spml-ia\.venv\Lib\site-packages\opacus\privacy_engine.py:98: UserWarning: Secure RNG turned off. This is perfectly fine for experimentation as it allows for much faster training performance, but remember to turn it on and retrain one last time before production with ``secure_mode`` turned on.
+  warnings.warn(
+E:\Extra work\spml-ia\.venv\Lib\site-packages\opacus\accountants\analysis\rdp.py:332: UserWarning: Optimal order is the largest alpha. Please consider expanding the range of alphas to get a tighter privacy bound.
+  warnings.warn(
+<sys>:0: UserWarning: Full backward hook is firing when gradients are computed with respect to module outputs since no inputs require gradients. See https://docs.pytorch.org/docs/main/generated/torch.nn.Module.html#torch.nn.Module.register_full_backward_hook for more details.
+[lira] training 32 shadow models on 5000 examples (40 epochs each) device=cuda
+  shadow 1/32 done
+  shadow 2/32 done
+  shadow 3/32 done
+  shadow 4/32 done
+  shadow 5/32 done
+  shadow 6/32 done
+  shadow 7/32 done
+  shadow 8/32 done
+  shadow 9/32 done
+  shadow 10/32 done
+  shadow 11/32 done
+  shadow 12/32 done
+  shadow 13/32 done
+  shadow 14/32 done
+  shadow 15/32 done
+  shadow 16/32 done
+  shadow 17/32 done
+  shadow 18/32 done
+  shadow 19/32 done
+  shadow 20/32 done
+  shadow 21/32 done
+  shadow 22/32 done
+  shadow 23/32 done
+  shadow 24/32 done
+  shadow 25/32 done
+  shadow 26/32 done
+  shadow 27/32 done
+  shadow 28/32 done
+  shadow 29/32 done
+  shadow 30/32 done
+  shadow 31/32 done
+  shadow 32/32 done
+[lira] results: {
+  "LiRA": {
+    "auc": 0.51342776,
+    "tpr_at_0.1pct": 0.0012,
+    "tpr_at_1pct": 0.0116
+  },
+  "Yeom loss-threshold": {
+    "auc": 0.5000612,
+    "tpr_at_0.1pct": 0.0010054347826086957,
+    "tpr_at_1pct": 0.010054347826086956
+  }
+}
+[lira] target model DP epsilon achieved = 0.991
+[04:04:21] mia_dp_eps1 OK
+[04:04:22] make_video...
+[video] wrote results/video\demo.mp4  (9 segments)
+[video] wrote results/video\reconstruction.gif
+[04:04:35] make_video OK
+[04:04:35] build_reports...
+[report] E:\Extra work\spml-ia\report\16014223085_Suyash_Humne_SPML_IA1.pdf OK
+[report] E:\Extra work\spml-ia\report\16014223085_Suyash_Humne_SPML_IA2.pdf OK
+[report] E:\Extra work\spml-ia\report\16014223085_Suyash_Humne_SPML_StudyGuide.pdf OK
+[04:04:41] build_reports OK
+[04:04:41] RERUN DONE

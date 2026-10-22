@@ -1,0 +1,142 @@
+[03:04:09] === run_all started ===
+[03:04:09] --- stage 'hero_demo' starting ---
+[03:06:45] --- stage 'hero_demo' OK in 156s ---
+[03:06:45]     stdout tail: =========================================
+  RESULT  -  the 'private' image has been reconstructed
+==========================================================================
+[server]  reconstruction finished in 151.6s.
+[server]  PSNR = 24.53 dB   SSIM = 0.8981378078460693   LPIPS = 0.013253690674901009
+[server]  recovered label 'frog' + the pixels of the patient's private image.
+[takeaway] sharing gradients is NOT the same as keeping data private.
+[takeaway] this is exactly why the defences in Modules 2-5 exist.
+
+[saved]   results/federated_demo/reconstruction.png  +  80 frames  +  metrics.json
+[03:06:45] --- stage 'gallery_bird' starting ---
+[03:07:57] --- stage 'gallery_bird' OK in 72s ---
+[03:07:57]     stdout tail: [victim]  private image id=6 true label=2 (bird)
+[attacker] recovered label=2 (bird) | label correct: True
+[result]  final cosine-loss=0.0002 PSNR=24.69 dB | wall-clock=67.0s | frames=35
+[03:07:57] --- stage 'gallery_car' starting ---
+[03:09:08] --- stage 'gallery_car' OK in 71s ---
+[03:09:08]     stdout tail: [victim]  private image id=4 true label=1 (automobile)
+[attacker] recovered label=1 (automobile) | label correct: True
+[result]  final cosine-loss=0.0002 PSNR=22.57 dB | wall-clock=66.5s | frames=35
+[03:09:08] --- stage 'batch_reconstruction' starting ---
+[03:14:04] --- stage 'batch_reconstruction' OK in 296s ---
+[03:14:04]     stdout tail: [batch=1] mean PSNR=21.10 dB  label-recovery=1.00
+[batch=4] mean PSNR=11.58 dB  label-recovery=0.75
+[batch=8] mean PSNR=13.07 dB  label-recovery=0.38
+[done] wrote results/batch_reconstruction/metrics.json
+[03:14:04] --- stage 'defense_sweep' starting ---
+[03:29:57] --- stage 'defense_sweep' OK in 953s ---
+[03:29:57]     stdout tail: fence: local_dp (Module 3: Local Differential Privacy) ===
+  strength=0.0: acc=0.1 PSNR=24.42 SSIM=0.8973391652107239 LPIPS=0.013379408046603203
+  strength=0.001: acc=0.1 PSNR=23.09 SSIM=0.8531882166862488 LPIPS=0.019615719094872475
+  strength=0.01: acc=0.1 PSNR=8.89 SSIM=0.09460652619600296 LPIPS=0.34229522943496704
+  strength=0.05: acc=0.3036 PSNR=7.02 SSIM=0.03559112548828125 LPIPS=0.41113585233688354
+  strength=0.1: acc=0.1467 PSNR=6.69 SSIM=0.024152986705303192 LPIPS=0.37398481369018555
+
+[done] wrote results/defense_sweep/metrics.json
+[done] wrote results/defense_sweep/privacy_utility.png
+[03:29:57] --- stage 'mia_undefended' starting ---
+[03:31:02] --- stage 'mia_undefended' OK in 65s ---
+[03:31:02]     stdout tail: 4/32 done
+  shadow 15/32 done
+  shadow 16/32 done
+  shadow 17/32 done
+  shadow 18/32 done
+  shadow 19/32 done
+  shadow 20/32 done
+  shadow 21/32 done
+  shadow 22/32 done
+  shadow 23/32 done
+  shadow 24/32 done
+  shadow 25/32 done
+  shadow 26/32 done
+  shadow 27/32 done
+  shadow 28/32 done
+  shadow 29/32 done
+  shadow 30/32 done
+  shadow 31/32 done
+  shadow 32/32 done
+[lira] results: {
+  "LiRA": {
+    "auc": 0.5031121599999999,
+    "tpr_at_0.1pct": 0.0016,
+    "tpr_at_1pct": 0.0128
+  },
+  "Yeom loss-threshold": {
+    "auc": 0.52306736,
+    "tpr_at_0.1pct": 0.002,
+    "tpr_at_1pct": 0.0096
+  }
+}
+[03:31:02] --- stage 'mia_dp_eps1' starting ---
+[03:32:03] --- stage 'mia_dp_eps1' OK in 61s ---
+[03:32:03]     stdout tail: 6/32 done
+  shadow 17/32 done
+  shadow 18/32 done
+  shadow 19/32 done
+  shadow 20/32 done
+  shadow 21/32 done
+  shadow 22/32 done
+  shadow 23/32 done
+  shadow 24/32 done
+  shadow 25/32 done
+  shadow 26/32 done
+  shadow 27/32 done
+  shadow 28/32 done
+  shadow 29/32 done
+  shadow 30/32 done
+  shadow 31/32 done
+  shadow 32/32 done
+[lira] results: {
+  "LiRA": {
+    "auc": 0.49666528,
+    "tpr_at_0.1pct": 0.004,
+    "tpr_at_1pct": 0.0156
+  },
+  "Yeom loss-threshold": {
+    "auc": 0.50714896,
+    "tpr_at_0.1pct": 0.0036,
+    "tpr_at_1pct": 0.0124
+  }
+}
+[lira] target model DP epsilon achieved = 0.995
+[03:32:03] --- stage 'mia_dp_eps8' starting ---
+[03:33:09] --- stage 'mia_dp_eps8' OK in 65s ---
+[03:33:09]     stdout tail:  16/32 done
+  shadow 17/32 done
+  shadow 18/32 done
+  shadow 19/32 done
+  shadow 20/32 done
+  shadow 21/32 done
+  shadow 22/32 done
+  shadow 23/32 done
+  shadow 24/32 done
+  shadow 25/32 done
+  shadow 26/32 done
+  shadow 27/32 done
+  shadow 28/32 done
+  shadow 29/32 done
+  shadow 30/32 done
+  shadow 31/32 done
+  shadow 32/32 done
+[lira] results: {
+  "LiRA": {
+    "auc": 0.50214304,
+    "tpr_at_0.1pct": 0.0016,
+    "tpr_at_1pct": 0.0096
+  },
+  "Yeom loss-threshold": {
+    "auc": 0.50895744,
+    "tpr_at_0.1pct": 0.0,
+    "tpr_at_1pct": 0.0104
+  }
+}
+[lira] target model DP epsilon achieved = 7.993
+[03:33:09] --- stage 'make_video' starting ---
+[03:33:22] --- stage 'make_video' OK in 14s ---
+[03:33:22]     stdout tail: [video] wrote results/video\demo.mp4  (9 segments)
+[video] wrote results/video\reconstruction.gif
+[03:33:22] === run_all finished in 29.2 min ===

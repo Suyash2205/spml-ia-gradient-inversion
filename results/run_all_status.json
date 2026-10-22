@@ -1,0 +1,43 @@
+{
+  "started": "2026-10-22 03:04:09",
+  "stages": {
+    "hero_demo": {
+      "state": "ok",
+      "seconds": 156.1
+    },
+    "gallery_bird": {
+      "state": "ok",
+      "seconds": 71.7
+    },
+    "gallery_car": {
+      "state": "ok",
+      "seconds": 71.1
+    },
+    "batch_reconstruction": {
+      "state": "ok",
+      "seconds": 295.7
+    },
+    "defense_sweep": {
+      "state": "ok",
+      "seconds": 953.4
+    },
+    "mia_undefended": {
+      "state": "ok",
+      "seconds": 65.2
+    },
+    "mia_dp_eps1": {
+      "state": "ok",
+      "seconds": 61.2
+    },
+    "mia_dp_eps8": {
+      "state": "ok",
+      "seconds": 65.1
+    },
+    "make_video": {
+      "state": "ok",
+      "seconds": 13.7
+    }
+  },
+  "finished": "2026-10-22 03:33:22",
+  "total_minutes": 29.2
+}

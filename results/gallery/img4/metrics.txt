@@ -1,0 +1,10 @@
+image_id=4
+true_label=1
+recovered_label=1
+label_correct=True
+final_cosine_loss=0.000164
+PSNR_dB=22.5737
+iters=3500
+restarts=2
+wall_clock_s=66.49
+device=cuda

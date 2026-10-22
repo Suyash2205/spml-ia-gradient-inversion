@@ -1,0 +1,20 @@
+{
+  "tag": "dp_eps8",
+  "shadows": 32,
+  "pool": 5000,
+  "epochs": 40,
+  "dp_epsilon_requested": 8.0,
+  "dp_epsilon_achieved": 7.997828305261566,
+  "results": {
+    "LiRA": {
+      "auc": 0.55346672,
+      "tpr_at_0.1pct": 0.0004,
+      "tpr_at_1pct": 0.0112
+    },
+    "Yeom loss-threshold": {
+      "auc": 0.54643816,
+      "tpr_at_0.1pct": 0.0003333333333333334,
+      "tpr_at_1pct": 0.0068
+    }
+  }
+}

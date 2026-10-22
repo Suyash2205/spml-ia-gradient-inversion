@@ -1,0 +1,20 @@
+{
+  "tag": "undefended",
+  "shadows": 32,
+  "pool": 5000,
+  "epochs": 40,
+  "dp_epsilon_requested": null,
+  "dp_epsilon_achieved": null,
+  "results": {
+    "LiRA": {
+      "auc": 0.8926718399999999,
+      "tpr_at_0.1pct": 0.0032,
+      "tpr_at_1pct": 0.176
+    },
+    "Yeom loss-threshold": {
+      "auc": 0.82887304,
+      "tpr_at_0.1pct": 0.003065830721003135,
+      "tpr_at_1pct": 0.030658307210031353
+    }
+  }
+}

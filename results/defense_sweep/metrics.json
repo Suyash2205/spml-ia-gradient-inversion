@@ -1,0 +1,238 @@
+{
+  "image_id": 25,
+  "true_label": 6,
+  "true_class": "frog",
+  "recovered_label": 6,
+  "device": "cuda",
+  "defenses": {
+    "gaussian": {
+      "module": "Module 2: Differential Privacy",
+      "points": [
+        {
+          "strength": 0.0,
+          "test_accuracy": 0.601,
+          "reconstruction": {
+            "mse": 0.0036279966589063406,
+            "psnr_db": 24.4033312156211,
+            "ssim": 0.897319495677948,
+            "lpips": 0.013353831134736538
+          },
+          "image": "gaussian_0.0.png"
+        },
+        {
+          "strength": 0.001,
+          "test_accuracy": 0.6081,
+          "reconstruction": {
+            "mse": 0.004917134065181017,
+            "psnr_db": 23.08287950551695,
+            "ssim": 0.8530867099761963,
+            "lpips": 0.019757743924856186
+          },
+          "image": "gaussian_0.001.png"
+        },
+        {
+          "strength": 0.01,
+          "test_accuracy": 0.4958,
+          "reconstruction": {
+            "mse": 0.13158993422985077,
+            "psnr_db": 8.807773301416953,
+            "ssim": 0.09462171792984009,
+            "lpips": 0.3202884793281555
+          },
+          "image": "gaussian_0.01.png"
+        },
+        {
+          "strength": 0.05,
+          "test_accuracy": 0.3749,
+          "reconstruction": {
+            "mse": 0.19761276245117188,
+            "psnr_db": 7.04185010744674,
+            "ssim": 0.03665244206786156,
+            "lpips": 0.4048612713813782
+          },
+          "image": "gaussian_0.05.png"
+        },
+        {
+          "strength": 0.1,
+          "test_accuracy": 0.3229,
+          "reconstruction": {
+            "mse": 0.21439842879772186,
+            "psnr_db": 6.687784016610757,
+            "ssim": 0.024896347895264626,
+            "lpips": 0.3664810061454773
+          },
+          "image": "gaussian_0.1.png"
+        }
+      ]
+    },
+    "prune": {
+      "module": "Module 5: Compressive Privacy (sparsification)",
+      "points": [
+        {
+          "strength": 0.0,
+          "test_accuracy": 0.6134,
+          "reconstruction": {
+            "mse": 0.003624382195994258,
+            "psnr_db": 24.40766011641113,
+            "ssim": 0.8974125385284424,
+            "lpips": 0.01330818235874176
+          },
+          "image": "prune_0.0.png"
+        },
+        {
+          "strength": 0.5,
+          "test_accuracy": 0.6004,
+          "reconstruction": {
+            "mse": 0.004054154735058546,
+            "psnr_db": 23.920996795947506,
+            "ssim": 0.8892521858215332,
+            "lpips": 0.012977919541299343
+          },
+          "image": "prune_0.5.png"
+        },
+        {
+          "strength": 0.7,
+          "test_accuracy": 0.591,
+          "reconstruction": {
+            "mse": 0.007997934706509113,
+            "psnr_db": 20.97022145678684,
+            "ssim": 0.781376302242279,
+            "lpips": 0.026643047109246254
+          },
+          "image": "prune_0.7.png"
+        },
+        {
+          "strength": 0.9,
+          "test_accuracy": 0.5738,
+          "reconstruction": {
+            "mse": 0.039059530943632126,
+            "psnr_db": 14.082729763532186,
+            "ssim": 0.24363718926906586,
+            "lpips": 0.1710573136806488
+          },
+          "image": "prune_0.9.png"
+        },
+        {
+          "strength": 0.99,
+          "test_accuracy": 0.4398,
+          "reconstruction": {
+            "mse": 0.10968450456857681,
+            "psnr_db": 9.598547220669714,
+            "ssim": 0.026575317606329918,
+            "lpips": 0.3371506333351135
+          },
+          "image": "prune_0.99.png"
+        }
+      ]
+    },
+    "quantize": {
+      "module": "Module 5: Compressive Privacy (quantization)",
+      "points": [
+        {
+          "strength": 8,
+          "test_accuracy": 0.6143,
+          "reconstruction": {
+            "mse": 0.0036351049784570932,
+            "psnr_db": 24.39483042602383,
+            "ssim": 0.8970000147819519,
+            "lpips": 0.013338765129446983
+          },
+          "image": "quantize_8.png"
+        },
+        {
+          "strength": 6,
+          "test_accuracy": 0.6184,
+          "reconstruction": {
+            "mse": 0.0036880746483802795,
+            "psnr_db": 24.332002972031304,
+            "ssim": 0.895597517490387,
+            "lpips": 0.013778626918792725
+          },
+          "image": "quantize_6.png"
+        },
+        {
+          "strength": 4,
+          "test_accuracy": 0.618,
+          "reconstruction": {
+            "mse": 0.00436021201312542,
+            "psnr_db": 23.60492392866312,
+            "ssim": 0.8761218190193176,
+            "lpips": 0.01887858286499977
+          },
+          "image": "quantize_4.png"
+        },
+        {
+          "strength": 2,
+          "test_accuracy": 0.4368,
+          "reconstruction": {
+            "mse": 0.03300251439213753,
+            "psnr_db": 14.814529708787328,
+            "ssim": 0.43594253063201904,
+            "lpips": 0.10917089134454727
+          },
+          "image": "quantize_2.png"
+        }
+      ]
+    },
+    "local_dp": {
+      "module": "Module 3: Local Differential Privacy",
+      "points": [
+        {
+          "strength": 0.0,
+          "test_accuracy": 0.605,
+          "reconstruction": {
+            "mse": 0.0036338784266263247,
+            "psnr_db": 24.39629606342384,
+            "ssim": 0.8972516059875488,
+            "lpips": 0.013420553877949715
+          },
+          "image": "local_dp_0.0.png"
+        },
+        {
+          "strength": 0.001,
+          "test_accuracy": 0.6136,
+          "reconstruction": {
+            "mse": 0.004924338310956955,
+            "psnr_db": 23.07652117898602,
+            "ssim": 0.8529975414276123,
+            "lpips": 0.01976218819618225
+          },
+          "image": "local_dp_0.001.png"
+        },
+        {
+          "strength": 0.01,
+          "test_accuracy": 0.4966,
+          "reconstruction": {
+            "mse": 0.13154570758342743,
+            "psnr_db": 8.809233186405795,
+            "ssim": 0.09474408626556396,
+            "lpips": 0.3209950029850006
+          },
+          "image": "local_dp_0.01.png"
+        },
+        {
+          "strength": 0.05,
+          "test_accuracy": 0.3739,
+          "reconstruction": {
+            "mse": 0.19814236462116241,
+            "psnr_db": 7.03022658463712,
+            "ssim": 0.03526557981967926,
+            "lpips": 0.41257545351982117
+          },
+          "image": "local_dp_0.05.png"
+        },
+        {
+          "strength": 0.1,
+          "test_accuracy": 0.3228,
+          "reconstruction": {
+            "mse": 0.2136979103088379,
+            "psnr_db": 6.701997246575397,
+            "ssim": 0.02449704520404339,
+            "lpips": 0.375657856464386
+          },
+          "image": "local_dp_0.1.png"
+        }
+      ]
+    }
+  }
+}

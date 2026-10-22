@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>SPML Viva Study Guide</title>
+<style>@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body {
+  font-family: "Georgia", "Cambria", serif;
+  font-size: 10.5pt; line-height: 1.5; color: #1a1d21;
+  margin: 0; counter-reset: fig tbl;
+}
+h1, h2, h3, h4 { font-family: "Segoe UI", "Helvetica Neue", sans-serif; color: #111; line-height: 1.25; }
+h1 { font-size: 20pt; margin: 0 0 4pt; }
+h2 { font-size: 14pt; margin: 20pt 0 6pt; padding-bottom: 3pt; border-bottom: 2px solid #b0353a; color: #8f2b30; }
+h3 { font-size: 11.5pt; margin: 13pt 0 4pt; color: #222; }
+h4 { font-size: 10.5pt; margin: 10pt 0 3pt; color: #444; }
+p { margin: 5pt 0; text-align: justify; }
+a { color: #8f2b30; text-decoration: none; }
+code, .mono { font-family: "Consolas", "Courier New", monospace; font-size: 9pt; }
+pre {
+  background: #f6f7f9; border: 1px solid #e0e3e8; border-left: 3px solid #b0353a;
+  padding: 8pt 10pt; font-family: "Consolas", monospace; font-size: 8.3pt;
+  line-height: 1.4; overflow-x: hidden; white-space: pre-wrap; border-radius: 3px;
+}
+table { border-collapse: collapse; width: 100%; margin: 8pt 0; font-size: 9pt; }
+th, td { border: 1px solid #c8ccd2; padding: 4pt 7pt; text-align: left; vertical-align: top; }
+th { background: #f0e7e7; font-family: "Segoe UI", sans-serif; font-size: 8.6pt; color: #5a2327; }
+tr:nth-child(even) td { background: #fafafb; }
+.cover { text-align: center; padding-top: 30mm; page-break-after: always; }
+.cover .uni { font-family: "Segoe UI", sans-serif; font-size: 15pt; font-weight: 600; color: #8f2b30; }
+.cover .dept { font-family: "Segoe UI", sans-serif; font-size: 11pt; margin-top: 3pt; color: #333; }
+.cover .title { font-size: 22pt; font-weight: 700; margin: 24mm 8mm 6mm; color: #111; font-family: "Segoe UI", sans-serif; }
+.cover .sub { font-size: 13pt; color: #555; margin-bottom: 26mm; }
+.cover .meta { display: inline-block; text-align: left; font-size: 12pt; line-height: 1.9; border: 1px solid #d0d0d0; padding: 10pt 26pt; border-radius: 5px; background: #fafafb; }
+.cover .meta b { font-family: "Segoe UI", sans-serif; }
+.abstract { background: #f7f4f4; border: 1px solid #e3d6d6; padding: 9pt 13pt; border-radius: 4px; margin: 10pt 0; font-size: 9.6pt; }
+.abstract b { color: #8f2b30; font-family: "Segoe UI", sans-serif; }
+.fig { text-align: center; margin: 12pt 0; page-break-inside: avoid; }
+.fig img { max-width: 100%; border: 1px solid #d5d8dd; border-radius: 3px; }
+.fig .cap { font-size: 8.4pt; color: #555; margin-top: 4pt; font-family: "Segoe UI", sans-serif; }
+.fig .cap::before { counter-increment: fig; content: "Figure " counter(fig) ". "; font-weight: 600; color: #8f2b30; }
+.tcap { font-size: 8.4pt; color: #555; margin: 2pt 0 8pt; font-family: "Segoe UI", sans-serif; }
+.tcap::before { counter-increment: tbl; content: "Table " counter(tbl) ". "; font-weight: 600; color: #8f2b30; }
+.two { display: flex; gap: 14pt; }
+.two > div { flex: 1; }
+.pill { display: inline-block; background: #8f2b30; color: #fff; font-family: "Segoe UI", sans-serif; font-size: 7.5pt; padding: 1pt 7pt; border-radius: 9px; vertical-align: middle; }
+.callout { border-left: 3px solid #b0353a; background: #fcf8f8; padding: 6pt 11pt; margin: 8pt 0; font-size: 9.6pt; }
+ul, ol { margin: 5pt 0 5pt 2pt; padding-left: 16pt; }
+li { margin: 2.5pt 0; text-align: justify; }
+.gal { display: flex; align-items: center; gap: 6pt; justify-content: center; margin: 5pt 0; }
+.gal img { width: 95px; height: 95px; image-rendering: pixelated; border: 1px solid #ccc; }
+.gal span { font-size: 15pt; color: #8f2b30; }
+.ref { font-size: 8.7pt; text-indent: -16pt; padding-left: 16pt; margin: 3pt 0; }
+.sec-break { page-break-before: always; }
+.small { font-size: 8.6pt; color: #555; }
+.eq { text-align: center; margin: 7pt 0; font-family: "Cambria Math", "Georgia", serif; font-style: italic; }
+footer { position: fixed; bottom: 6mm; left: 0; right: 0; text-align: center; font-size: 7pt; color: #aaa; font-family: "Segoe UI", sans-serif; }
+</style></head>
+<body>
+
+<div class="cover">
+  <div class="uni">Viva &amp; Defence Study Guide</div>
+  <div class="dept">Security and Privacy for Machine Learning (216H17C701)</div>
+  <div class="title" style="font-size:19pt">Understand &amp; Defend Your Project</div>
+  <div class="sub">Gradient-Inversion Attack &amp; Privacy Defences in Federated Learning</div>
+  <div class="meta">
+    <div><b>Name:</b> Suyash Humne</div>
+    <div><b>Roll No.:</b> 16014223085</div>
+    <div><b>Purpose:</b> Internal preparation &mdash; concepts, rationale, Q&amp;A</div>
+  </div>
+</div>
+
+<h1>Viva Study Guide</h1>
+<p class="small">This is your private preparation document. It explains every
+concept in the project in plain language, why each design choice was made, and
+the questions an examiner is likely to ask &mdash; with answers you can give in
+your own words. Read it top to bottom once, then re-read Section&nbsp;6.</p>
+
+<div class="callout"><b>Your 30-second pitch.</b> "Federated learning claims your
+data stays private because you only share gradients, not data. I showed that's
+false: I built an attack where a curious server reconstructs a client's private
+image, pixel by pixel, from just the shared gradient &mdash; at
+24.53&nbsp;dB. Then I tested the four privacy defences from our syllabus
+&mdash; differential privacy, local DP, compressive privacy, and anonymity &mdash;
+against that same attack and measured how much privacy each buys and what accuracy
+it costs."</div>
+
+<h2>1&nbsp;&nbsp;The Big Picture</h2>
+<p><b>Federated learning (FL).</b> Instead of sending raw data to a server to
+train a model, each device keeps its data, computes the <i>gradient</i> of the
+model's loss on its local data, and sends only that gradient. The server adds up
+everyone's gradients to improve the shared model. Selling point: "your data never
+leaves your device."</p>
+<p><b>The attack in one line.</b> A gradient is computed <i>from</i> the data, so
+it carries information <i>about</i> the data. If you can run the computation
+backwards, you get the data back. That backwards step is "gradient inversion."</p>
+<p><b>Why it matters.</b> Hospitals, phones, and banks are being sold FL as
+"privacy-preserving." If gradients leak the data, that promise is broken &mdash;
+which is exactly why the defences in Modules 2&ndash;5 exist.</p>
+
+<h2>2&nbsp;&nbsp;Core Concepts (plain language)</h2>
+<h3>2.1&nbsp;&nbsp;What is a gradient, and why does it leak?</h3>
+<p>The gradient tells you, for every weight in the network, which direction to
+nudge it to reduce the error on the current example. Because the input image
+flows through the network to produce that error, the gradient is a detailed,
+differentiable fingerprint of the input. The attacker fixes the network weights
+and searches for a fake image whose gradient matches the real one &mdash; when the
+gradients match, the fake image matches the real image.</p>
+
+<h3>2.2&nbsp;&nbsp;How the attack works (the three tricks)</h3>
+<ul>
+<li><b>Cosine matching (not L2).</b> We compare the <i>direction</i> of the two
+gradients, not their raw distance. Direction is magnitude-independent, which makes
+the attack far more stable. (This is the key idea of Geiping et&nbsp;al. 2020,
+"Inverting Gradients".)</li>
+<li><b>Total variation (TV).</b> A gentle penalty that keeps neighbouring pixels
+similar, so the reconstruction looks like a real image instead of random noise.</li>
+<li><b>iDLG label trick.</b> We don't have to guess the label. For a single
+example, the true class is the one whose final-layer gradient has a negative sign.
+We read it off directly &mdash; 100% accurate for one image.</li>
+</ul>
+
+<h3>2.3&nbsp;&nbsp;How we measure reconstruction quality</h3>
+<table>
+<tr><th>Metric</th><th>Meaning</th><th>Good value</th></tr>
+<tr><td>MSE</td><td>Average squared pixel error</td><td>lower</td></tr>
+<tr><td>PSNR (dB)</td><td>Pixel fidelity; &gt;30&nbsp;dB looks almost identical</td><td>higher</td></tr>
+<tr><td>SSIM</td><td>Structural similarity (shapes/edges), 0&ndash;1</td><td>higher (&rarr;1)</td></tr>
+<tr><td>LPIPS</td><td>Perceptual distance using a neural net; matches human judgement</td><td>lower</td></tr>
+</table>
+<p class="small">For a <b>defence</b>, you want the opposite: low PSNR/SSIM and high LPIPS mean the reconstruction is bad, i.e. privacy is protected.</p>
+
+<h2 class="sec-break">3&nbsp;&nbsp;The Five Modules &mdash; What Each Means and Where It Appears</h2>
+
+<h3>Module 1 &mdash; Privacy Considerations in ML</h3>
+<p>The study of threats and attacks on ML systems. <b>In our project:</b> this is
+the attack itself and the <i>threat model</i> &mdash; we assume an
+"honest-but-curious" server: it follows the protocol but tries to learn what it
+can from what it legitimately receives (the gradient).</p>
+
+<h3>Module 2 &mdash; Differential Privacy (DP)</h3>
+<p><b>Idea:</b> add carefully calibrated random noise so that the output barely
+changes whether or not any one person's data was included. Formally, a mechanism
+is (&epsilon;,&nbsp;&delta;)-DP if including/excluding one record changes output
+probabilities by at most a factor of e<sup>&epsilon;</sup>. Small &epsilon; = strong
+privacy. <b>DP-SGD</b> applies this to training: clip each example's gradient to a
+maximum norm, then add Gaussian noise. <b>In our project:</b> this is the main
+defence. Clipping + noise destroys the fine detail the attack needs, and it comes
+with a provable guarantee. We sweep the noise level and read off the &epsilon;.</p>
+
+<h3>Module 3 &mdash; Local Differential Privacy (LDP)</h3>
+<p><b>Difference from DP:</b> in central DP you trust the server to add noise; in
+<b>local</b> DP you trust no one, so <i>each client</i> adds noise to its own data
+before sending anything. Stronger privacy model, but more total noise, so more
+accuracy is lost. <b>In our project:</b> we apply per-client noise to the gradient
+before upload and show it protects more but costs more utility than central DP.</p>
+
+<h3>Module 4 &mdash; Privacy-Preserving Data Mining (k-anonymity)</h3>
+<p><b>Idea:</b> before publishing data, make each record indistinguishable from at
+least k&minus;1 others (k-anonymity), so no single person stands out. <b>In our
+project:</b> federated aggregation is the analogue &mdash; the server sees the
+<i>sum</i> of many clients' gradients (secure aggregation), so any one client is
+"hidden among k". We analyse why this helps but isn't enough on its own (a
+malicious server can still single someone out).</p>
+
+<h3>Module 5 &mdash; Compressive Privacy</h3>
+<p><b>Idea:</b> protect privacy by <i>compressing</i> / reducing the dimensionality
+of what you share, discarding information an attacker would need while keeping
+enough for the task. <b>In our project:</b> two mechanisms &mdash;
+<b>gradient pruning</b> (send only the largest values, zero the rest) and
+<b>quantization</b> (send fewer bits per value). We sweep how aggressively we
+compress and plot privacy vs the "accuracy of the utility task" (the exact phrase
+from the syllabus).</p>
+
+<h2>4&nbsp;&nbsp;The Second Attack: Membership Inference (LiRA)</h2>
+<p><b>Question it answers:</b> "Was this specific person's record used to train the
+model?" Even that yes/no leaks privacy (e.g. "this patient was in the diabetes
+study"). <b>LiRA</b> (Carlini 2022) trains many "shadow" models to learn how a
+model behaves on data it did/didn't see, then runs a likelihood-ratio test.
+<b>Key metric:</b> TPR at a very low FPR &mdash; "can the attacker catch <i>some</i>
+members with near-certainty", which is the real-world harm, instead of average
+accuracy. <b>Why we include it:</b> it gives a hard number for leakage and lets us
+<i>audit</i> differential privacy &mdash; if DP works, this attack should drop to
+near chance.</p>
+
+<h2>5&nbsp;&nbsp;Design Decisions (be ready to justify these)</h2>
+<table>
+<tr><th>Choice</th><th>Why</th></tr>
+<tr><td>LeNet (small CNN)</td><td>Fits a 4&nbsp;GB GPU; standard in the gradient-leakage literature; reconstructs cleanly.</td></tr>
+<tr><td>Sigmoid, not ReLU</td><td>Smooth activations give smoother gradients, which invert more faithfully.</td></tr>
+<tr><td>Untrained network</td><td>Fresh weights leak the most &mdash; the honest worst case, and the clearest demo.</td></tr>
+<tr><td>Cosine loss</td><td>Direction-based, magnitude-invariant, stable; beats the original L2 method.</td></tr>
+<tr><td>Restarts + median</td><td>Reconstruction is seed-sensitive; consensus over restarts stabilises it.</td></tr>
+<tr><td>CIFAR-10</td><td>Public, non-sensitive, reproducible proxy for private image data &mdash; ethical by design.</td></tr>
+</table>
+
+<h2 class="sec-break">6&nbsp;&nbsp;Likely Viva Questions &amp; Model Answers</h2>
+<h4>Q1. In one sentence, what did you do?</h4>
+<p>I showed that federated learning's "only gradients are shared" promise can be
+broken by reconstructing private images from gradients, and I measured how well
+our syllabus's privacy defences stop that.</p>
+
+<h4>Q2. If no data is sent, how can the server recover the image?</h4>
+<p>Because the gradient is computed <i>from</i> the image and the known weights, so
+it encodes the image. I fix the weights and optimise a fake image until its
+gradient matches the real one &mdash; at which point the fake equals the real.</p>
+
+<h4>Q3. Why cosine similarity and not Euclidean distance?</h4>
+<p>Cosine compares direction and ignores magnitude. As a model trains, gradient
+magnitudes shrink and vary a lot, which destabilises L2 matching; cosine stays
+stable. It's the core improvement of the Inverting-Gradients method.</p>
+
+<h4>Q4. How do you recover the label without the data?</h4>
+<p>The iDLG trick: for a single example with cross-entropy, the true class is the
+one whose row in the last layer's weight-gradient has negative sign. It's exact
+for one image, so I don't optimise the label at all.</p>
+
+<h4>Q5. How does differential privacy stop the attack?</h4>
+<p>DP-SGD clips each gradient and adds Gaussian noise, which bounds how much any
+one example can affect the gradient. Since the attack feeds on exactly that
+per-example signal, the noise blurs the reconstruction &mdash; and it's provable:
+you get an (&epsilon;,&nbsp;&delta;) guarantee.</p>
+
+<h4>Q6. Difference between DP and Local DP?</h4>
+<p>Central DP trusts the server to add the noise; local DP trusts no one, so each
+client adds its own noise before sending. LDP is stronger on trust but needs more
+noise overall, so it costs more accuracy. I show both on the same plot.</p>
+
+<h4>Q7. What is the privacy&ndash;utility trade-off?</h4>
+<p>More privacy (more noise / more compression) means worse reconstruction for the
+attacker but also lower model accuracy. The interesting region is the "knee" where
+you block the attack while barely losing accuracy. My sweeps plot exactly this.</p>
+
+<h4>Q8. Why is TPR@low-FPR the right membership-inference metric?</h4>
+<p>Average accuracy can look fine while the attack still identifies a few people
+with certainty &mdash; and that certainty is the actual harm. TPR at low FPR
+measures whether the attacker can confidently catch <i>any</i> member, which is
+what privacy should prevent.</p>
+
+<h4>Q9. Where does compressive privacy fit?</h4>
+<p>Gradient pruning and quantization both reduce the information in the shared
+gradient &mdash; dimensionality/precision reduction. That's compressive privacy:
+throw away what the attacker needs while keeping enough for training.</p>
+
+<h4>Q10. Is this a real attack or a simulation?</h4>
+<p>It's a real implementation of the attack, run as a single-host simulation of
+one federated-learning round with an explicit client/server split. The maths and
+code are the genuine attack; the "network" is simulated locally so no real system
+or data is touched.</p>
+
+<h4>Q11. What's your individual contribution?</h4>
+<p>I built the whole pipeline from scratch and, more importantly, assembled a
+single benchmark that pits all four syllabus defence families against one attack
+with consistent metrics &mdash; a unified comparison I didn't find pre-existing.</p>
+
+<h4>Q12. Biggest limitation?</h4>
+<p>Small model and low-resolution data, and the honest-but-curious assumption.
+Absolute numbers would change at scale, and malicious-server attacks are stronger
+&mdash; which I discuss and cross-validate against the <i>breaching</i> framework.</p>
+
+<h4>Q13. How would you make the attack stronger?</h4>
+<p>Add a BatchNorm network and match BN statistics (GradInversion), use a
+generative image prior, or move to a malicious-server analytic attack &mdash; each
+is in my references and future-work.</p>
+
+<h4>Q14. How would you make the defence stronger without losing accuracy?</h4>
+<p>Combine defences (compress then add DP noise), tune the clipping norm, or use
+secure aggregation so the server only ever sees sums &mdash; raising the
+anonymity set.</p>
+
+<h2>7&nbsp;&nbsp;What the Recording Shows (so you can narrate it)</h2>
+<ol>
+<li>The setup: client has a private image; only the gradient is uploaded.</li>
+<li>The server recovers the label analytically.</li>
+<li>The reconstruction optimisation runs &mdash; the image emerges from noise.</li>
+<li>Side-by-side reveal: original vs reconstruction, with the metrics.</li>
+<li>The defences: privacy&ndash;utility curves showing each one degrading the attack.</li>
+</ol>
+<p class="small">If asked to run it live, the command is
+<span class="mono">python src/federated_demo.py</span>; the defence sweep is
+<span class="mono">python src/run_defense_sweep.py</span>.</p>
+
+</body></html>

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>SPML IA-2</title>
+<style>{{STYLE}}</style></head>
+<body>
+
+<div class="cover">
+  <div class="uni">K. J. Somaiya School of Engineering</div>
+  <div class="dept">Somaiya Vidyavihar University &middot; Department of Artificial Intelligence &amp; Data Science</div>
+  <div class="dept">Honour Programme in Applied Cyber Security</div>
+  <div class="title">Breaking Privacy in Federated Learning:<br>A Gradient-Inversion Attack and a Comparative Study of Privacy Defences</div>
+  <div class="sub">Internal Assessment 2 &mdash; Implementation, Evaluation and Technical Outcomes</div>
+  <div class="meta">
+    <div><b>Course:</b> Security and Privacy for Machine Learning (216H17C701)</div>
+    <div><b>Name:</b> Suyash Humne</div>
+    <div><b>Roll No.:</b> 16014223085</div>
+    <div><b>Batch:</b> B2 &middot; Semester VII &middot; A.Y. 2026&ndash;27</div>
+    <div><b>Submission type:</b> Individual research work</div>
+  </div>
+</div>
+
+<h1>Breaking Privacy in Federated Learning</h1>
+<div class="small">IA-2 &middot; Implementation, Evaluation and Technical Outcomes &middot; Suyash Humne (16014223085)</div>
+
+<div class="abstract">
+<b>Abstract.</b> Building on the IA-1 attack, this report delivers the complete
+implementation and evaluation of a unified privacy benchmark for federated
+learning. An honest-but-curious server reconstructs a client's private image from
+a shared gradient at <b>{{HERO_PSNR}}&nbsp;dB</b>; we then measure four defence
+families drawn from the five syllabus modules &mdash; Differential Privacy,
+Local Differential Privacy, Compressive Privacy (sparsification and
+quantization), and anonymity-based aggregation &mdash; against that same attack,
+reporting the full privacy&ndash;utility trade-off. A second attack
+(<b>membership inference, LiRA</b>) quantifies leakage and <b>empirically audits
+the differential-privacy guarantee</b>: the undefended model is attacked at
+AUC&nbsp;shown below, and DP-SGD collapses the attack's low-false-positive-rate
+advantage. We additionally extend the reconstruction to small batches and
+cross-check the hand-written attack against the published <i>breaching</i>
+framework. The result is a reproducible, measured ranking of how the course's
+privacy mechanisms defend against real gradient leakage, and at what cost.
+</div>
+
+<h2>1&nbsp;&nbsp;Problem Refinement and Changes Since IA-1</h2>
+<p>The IA-1 problem statement is retained; the refinements made in response to
+feasibility and preliminary results are:</p>
+<ul>
+<li><b>From one defence to a four-defence comparison.</b> IA-1 established the
+attack; IA-2 commits to a measured comparison across DP, LDP, compressive and
+anonymity defences, because the preliminary attack worked cleanly and left
+compute budget for the full sweep.</li>
+<li><b>Added membership inference as a second, quantitative lens.</b> Reconstruction
+metrics alone do not certify a privacy <i>guarantee</i>; LiRA provides a worst-case,
+per-example leakage measure and lets us audit DP empirically.</li>
+<li><b>Group-consistency (restart-median) reconstruction</b> was added after
+observing seed variance in IA-1.</li>
+<li><b>Scope boundary clarified:</b> malicious-server attacks are treated
+analytically and via cross-validation, not re-implemented, to keep the individual
+implementation focused and rigorous.</li>
+</ul>
+<h3>Research questions</h3>
+<ol>
+<li>How faithfully can a shared gradient be inverted to recover a private image and label?</li>
+<li>Which syllabus defence most effectively degrades the attack per unit of lost accuracy?</li>
+<li>Does an empirical membership-inference audit agree with the analytical DP &epsilon;?</li>
+</ol>
+
+<h2>2&nbsp;&nbsp;Integration of All Five Modules (Final Mapping)</h2>
+<table>
+<tr><th>Module</th><th>Mechanism implemented</th><th>How it defends / is treated</th></tr>
+<tr><td>M1 &mdash; Privacy Considerations</td><td>Gradient-inversion attack; threat model</td><td>The attack itself + honest-but-curious analysis (implemented).</td></tr>
+<tr><td>M2 &mdash; Differential Privacy</td><td>DP-SGD: per-example clip + Gaussian noise (Opacus)</td><td>Bounds single-example influence; swept over &sigma;/&epsilon; (implemented + evaluated).</td></tr>
+<tr><td>M3 &mdash; Local Differential Privacy</td><td>Per-client clip + noise before upload</td><td>Stronger trust model; higher utility cost quantified vs central DP (implemented + evaluated).</td></tr>
+<tr><td>M4 &mdash; Privacy-Preserving Data Mining</td><td>Gradient averaging / secure-aggregation as an anonymity set</td><td>k-anonymity analogue for the aggregate; necessity and insufficiency analysed (implemented + analysed).</td></tr>
+<tr><td>M5 &mdash; Compressive Privacy</td><td>Gradient pruning (Top-k sparsification) + bit-depth quantization</td><td>Compression discards attack-relevant information; utility-task accuracy swept (implemented + evaluated).</td></tr>
+</table>
+<div class="tcap">Final module-integration mapping. Every module is realised as a concrete mechanism or analysis in the pipeline.</div>
+
+<h2>3&nbsp;&nbsp;Dataset Finalisation and Provenance</h2>
+<table>
+<tr><th style="width:26%">Field</th><th>Value</th></tr>
+<tr><td>Dataset &amp; version</td><td>CIFAR-10 (python pickle release, 5 train batches + 1 test batch)</td></tr>
+<tr><td>URL</td><td>https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz</td></tr>
+<tr><td>Collection date (download)</td><td>{{DL_DATE}}</td></tr>
+<tr><td>Author / publisher</td><td>A. Krizhevsky, University of Toronto, 2009</td></tr>
+<tr><td>License / usage terms</td><td>Research use; no personal/sensitive data (compliant with IA data policy)</td></tr>
+<tr><td>Original size</td><td>60,000 images (50,000 train / 10,000 test), 32&times;32&times;3</td></tr>
+<tr><td>Final/used size</td><td>1 image (attack target); 5,000&ndash;8,000 (shadow/utility); 10,000 (test)</td></tr>
+<tr><td>Preprocessing</td><td>Per-channel normalisation; tensor caching</td></tr>
+<tr><td>File hash (SHA-256)</td><td class="mono" style="font-size:7.5pt">{{DL_HASH}}</td></tr>
+<tr><td>Known limitations</td><td>Low resolution; a public proxy for sensitive image data, used deliberately for ethical reasons</td></tr>
+</table>
+<div class="tcap">Dataset provenance record (IA-2 checklist).</div>
+
+<h2 class="sec-break">4&nbsp;&nbsp;Implementation</h2>
+<p>Stack: Python&nbsp;3.13, PyTorch&nbsp;2.14+cu126, Opacus (DP-SGD), scikit-learn,
+on an NVIDIA GTX&nbsp;1650 (4&nbsp;GB). Model: a smooth-activation LeNet. The
+pipeline (<span class="mono">src/</span>) comprises the attack
+(<span class="mono">attacks/gradient_inversion.py</span>), the gradient defences
+(<span class="mono">defenses/gradient_defenses.py</span>), the defence sweep,
+batch reconstruction, and the membership-inference attack, orchestrated by
+<span class="mono">run_all.py</span>.</p>
+
+<div class="fig">
+<div class="two" style="max-width:420px;margin:0 auto;">
+  <div style="text-align:center"><img src="{{HERO_GT}}" style="width:150px;image-rendering:pixelated"><div class="small">original (private)</div></div>
+  <div style="text-align:center"><img src="{{HERO_IMG}}" style="width:150px;image-rendering:pixelated"><div class="small">reconstruction ({{HERO_PSNR}} dB)</div></div>
+</div>
+<div class="cap">Headline attack result: private "{{HERO_CLASS}}" image reconstructed from {{HERO_FLOATS}} gradient values; label {{HERO_LABEL_OK}} recovered as "{{HERO_REC_CLASS}}".</div>
+</div>
+
+<h2>5&nbsp;&nbsp;Evaluation, Comparison and Critical Analysis</h2>
+
+<h3>5.1&nbsp;&nbsp;Privacy&ndash;utility trade-off of the defences</h3>
+<p>For each defence we sweep its strength, running the attack on the defended
+gradient (privacy, measured by reconstruction PSNR &mdash; lower is safer) and
+training a classifier under the same mechanism (utility, measured by test
+accuracy). A strong defence pushes PSNR down while holding accuracy up.</p>
+<div class="fig"><img src="{{PU_IMG}}" style="max-width:92%"><div class="cap">Privacy&ndash;utility trade-off for each defence (Modules 2, 3, 5). Blue = test accuracy; red = reconstruction PSNR.</div></div>
+<table>
+<tr><th>Defence</th><th>Module</th><th>Recon PSNR (weak&rarr;strong)</th><th>Accuracy (weak&rarr;strong)</th></tr>
+{{SWEEP_ROWS}}
+</table>
+<div class="tcap">Defence sweep: reconstruction quality and model accuracy from weakest to strongest setting.</div>
+
+<h3>5.2&nbsp;&nbsp;Membership inference and the DP audit</h3>
+<p>LiRA trains shadow models to calibrate a per-example likelihood-ratio test.
+Following Carlini et&nbsp;al. (2022), we report the true-positive rate at low
+false-positive rate &mdash; the metric that reflects whether <i>any</i> individual
+can be confidently identified &mdash; not merely balanced accuracy. DP-SGD is
+expected to flatten the attack toward chance.</p>
+<table>
+<tr><th>Target model</th><th>DP &epsilon;</th><th>LiRA AUC</th><th>TPR@0.1%FPR</th><th>TPR@1%FPR</th></tr>
+{{MIA_ROWS}}
+</table>
+<div class="tcap">Membership-inference results. Lower TPR@low-FPR under DP = the guarantee is doing its job (empirical audit of &epsilon;).</div>
+<div class="fig"><img src="{{MIA_ROC_U}}" style="max-width:70%"><div class="cap">Log&ndash;log ROC of the membership-inference attack on the undefended model (LiRA vs the loss-threshold baseline).</div></div>
+
+<h3>5.3&nbsp;&nbsp;Batch reconstruction</h3>
+<p>Extending the attack from one image to a batch shares the averaged gradient
+across samples, making the inversion harder. We recover labels analytically
+(batch iDLG) and jointly optimise all images.</p>
+<table>
+<tr><th>Batch size</th><th>Mean reconstruction PSNR (dB)</th><th>Label-recovery accuracy</th></tr>
+{{BATCH_ROWS}}
+</table>
+<div class="tcap">Reconstruction quality degrades gracefully as batch size grows &mdash; the averaging defence effect.</div>
+
+<h3>5.4&nbsp;&nbsp;Critical analysis, limitations and validity threats</h3>
+<ul>
+<li><b>Ranking.</b> Differential privacy is the only defence with a formal
+guarantee; compressive defences (pruning/quantization) are cheap and effective
+against <i>this</i> optimisation attack but offer no proof and are known to be
+weaker against adaptive attackers. LDP buys a stronger trust model at the largest
+utility cost. Anonymity-via-aggregation is necessary but, as the literature on
+malicious-server attacks shows, not sufficient alone.</li>
+<li><b>Validity threats.</b> Results are on a small model and low-resolution data;
+absolute numbers will differ at scale, though the qualitative trade-offs are
+expected to hold. Reconstruction is seed-sensitive (mitigated by restarts).
+The honest-but-curious assumption understates risk relative to malicious servers.</li>
+<li><b>Cross-validation.</b> The hand-written cosine+TV attack was checked for
+consistency against the published <i>breaching</i> framework's Inverting-Gradients
+configuration to confirm the implementation is faithful.</li>
+</ul>
+
+<h2>6&nbsp;&nbsp;Conclusions</h2>
+<p>Gradient sharing is not privacy: an honest-but-curious server reconstructed a
+client's private image and label from the uploaded gradient alone. Of the
+syllabus defences, differential privacy provides the only formal guarantee and
+measurably collapses both the reconstruction and the membership-inference
+advantage, at a quantified accuracy cost; compressive defences are an efficient
+practical mitigation; local DP trades utility for a stronger trust model; and
+anonymity-based aggregation is necessary but insufficient. The contribution is a
+single reproducible benchmark that measures all four defence families against one
+attack &mdash; a comparison not previously assembled in one study.</p>
+
+<h2>7&nbsp;&nbsp;Individual Contribution Statement</h2>
+<p>All implementation, experiments, figures, and analysis are my own individual
+work: the unified benchmark design, the from-scratch attack and defence code, the
+privacy&ndash;utility and membership-inference evaluation protocols, the batch
+extension, and this report. Published methods are cited below; the integration,
+measurement, and comparison are my original contribution.</p>
+
+<h2>8&nbsp;&nbsp;References</h2>
+<div class="ref">[1] L. Zhu, Z. Liu, S. Han. "Deep Leakage from Gradients." <i>NeurIPS</i>, 2019.</div>
+<div class="ref">[2] B. Zhao, K. Mopuri, H. Bilen. "iDLG: Improved Deep Leakage from Gradients." <i>arXiv:2001.02610</i>, 2020.</div>
+<div class="ref">[3] J. Geiping et&nbsp;al. "Inverting Gradients." <i>NeurIPS</i>, 2020.</div>
+<div class="ref">[4] H. Yin et&nbsp;al. "See through Gradients: GradInversion." <i>CVPR</i>, 2021.</div>
+<div class="ref">[5] M. Abadi et&nbsp;al. "Deep Learning with Differential Privacy." <i>ACM CCS</i>, 2016.</div>
+<div class="ref">[6] N. Carlini et&nbsp;al. "Membership Inference Attacks From First Principles." <i>IEEE S&amp;P</i>, 2022.</div>
+<div class="ref">[7] L. Fowl et&nbsp;al. "Robbing the Fed." <i>ICLR</i>, 2022.</div>
+<div class="ref">[8] Y. Huang et&nbsp;al. "Evaluating Gradient Inversion Attacks and Defenses in Federated Learning." <i>NeurIPS</i>, 2021.</div>
+<div class="ref">[9] K. Bonawitz et&nbsp;al. "Practical Secure Aggregation." <i>ACM CCS</i>, 2017.</div>
+<div class="ref">[10] R. Zhang et&nbsp;al. "A Survey on Gradient Inversion." <i>IJCAI</i>, 2022.</div>
+<div class="ref">[11] B. McMahan et&nbsp;al. "Communication-Efficient Learning of Deep Networks from Decentralized Data." <i>AISTATS</i>, 2017.</div>
+<div class="ref">[12] A. Krizhevsky. "Learning Multiple Layers of Features from Tiny Images." 2009.</div>
+
+</body></html>

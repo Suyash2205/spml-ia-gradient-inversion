@@ -1,0 +1,53 @@
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body {
+  font-family: "Georgia", "Cambria", serif;
+  font-size: 10.5pt; line-height: 1.5; color: #1a1d21;
+  margin: 0; counter-reset: fig tbl;
+}
+h1, h2, h3, h4 { font-family: "Segoe UI", "Helvetica Neue", sans-serif; color: #111; line-height: 1.25; }
+h1 { font-size: 20pt; margin: 0 0 4pt; }
+h2 { font-size: 14pt; margin: 20pt 0 6pt; padding-bottom: 3pt; border-bottom: 2px solid #b0353a; color: #8f2b30; }
+h3 { font-size: 11.5pt; margin: 13pt 0 4pt; color: #222; }
+h4 { font-size: 10.5pt; margin: 10pt 0 3pt; color: #444; }
+p { margin: 5pt 0; text-align: justify; }
+a { color: #8f2b30; text-decoration: none; }
+code, .mono { font-family: "Consolas", "Courier New", monospace; font-size: 9pt; }
+pre {
+  background: #f6f7f9; border: 1px solid #e0e3e8; border-left: 3px solid #b0353a;
+  padding: 8pt 10pt; font-family: "Consolas", monospace; font-size: 8.3pt;
+  line-height: 1.4; overflow-x: hidden; white-space: pre-wrap; border-radius: 3px;
+}
+table { border-collapse: collapse; width: 100%; margin: 8pt 0; font-size: 9pt; }
+th, td { border: 1px solid #c8ccd2; padding: 4pt 7pt; text-align: left; vertical-align: top; }
+th { background: #f0e7e7; font-family: "Segoe UI", sans-serif; font-size: 8.6pt; color: #5a2327; }
+tr:nth-child(even) td { background: #fafafb; }
+.cover { text-align: center; padding-top: 30mm; page-break-after: always; }
+.cover .uni { font-family: "Segoe UI", sans-serif; font-size: 15pt; font-weight: 600; color: #8f2b30; }
+.cover .dept { font-family: "Segoe UI", sans-serif; font-size: 11pt; margin-top: 3pt; color: #333; }
+.cover .title { font-size: 22pt; font-weight: 700; margin: 24mm 8mm 6mm; color: #111; font-family: "Segoe UI", sans-serif; }
+.cover .sub { font-size: 13pt; color: #555; margin-bottom: 26mm; }
+.cover .meta { display: inline-block; text-align: left; font-size: 12pt; line-height: 1.9; border: 1px solid #d0d0d0; padding: 10pt 26pt; border-radius: 5px; background: #fafafb; }
+.cover .meta b { font-family: "Segoe UI", sans-serif; }
+.abstract { background: #f7f4f4; border: 1px solid #e3d6d6; padding: 9pt 13pt; border-radius: 4px; margin: 10pt 0; font-size: 9.6pt; }
+.abstract b { color: #8f2b30; font-family: "Segoe UI", sans-serif; }
+.fig { text-align: center; margin: 12pt 0; page-break-inside: avoid; }
+.fig img { max-width: 100%; border: 1px solid #d5d8dd; border-radius: 3px; }
+.fig .cap { font-size: 8.4pt; color: #555; margin-top: 4pt; font-family: "Segoe UI", sans-serif; }
+.fig .cap::before { counter-increment: fig; content: "Figure " counter(fig) ". "; font-weight: 600; color: #8f2b30; }
+.tcap { font-size: 8.4pt; color: #555; margin: 2pt 0 8pt; font-family: "Segoe UI", sans-serif; }
+.tcap::before { counter-increment: tbl; content: "Table " counter(tbl) ". "; font-weight: 600; color: #8f2b30; }
+.two { display: flex; gap: 14pt; }
+.two > div { flex: 1; }
+.pill { display: inline-block; background: #8f2b30; color: #fff; font-family: "Segoe UI", sans-serif; font-size: 7.5pt; padding: 1pt 7pt; border-radius: 9px; vertical-align: middle; }
+.callout { border-left: 3px solid #b0353a; background: #fcf8f8; padding: 6pt 11pt; margin: 8pt 0; font-size: 9.6pt; }
+ul, ol { margin: 5pt 0 5pt 2pt; padding-left: 16pt; }
+li { margin: 2.5pt 0; text-align: justify; }
+.gal { display: flex; align-items: center; gap: 6pt; justify-content: center; margin: 5pt 0; }
+.gal img { width: 95px; height: 95px; image-rendering: pixelated; border: 1px solid #ccc; }
+.gal span { font-size: 15pt; color: #8f2b30; }
+.ref { font-size: 8.7pt; text-indent: -16pt; padding-left: 16pt; margin: 3pt 0; }
+.sec-break { page-break-before: always; }
+.small { font-size: 8.6pt; color: #555; }
+.eq { text-align: center; margin: 7pt 0; font-family: "Cambria Math", "Georgia", serif; font-style: italic; }
+footer { position: fixed; bottom: 6mm; left: 0; right: 0; text-align: center; font-size: 7pt; color: #aaa; font-family: "Segoe UI", sans-serif; }

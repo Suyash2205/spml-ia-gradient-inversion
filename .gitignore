@@ -1,0 +1,22 @@
+# Virtual environment (re-create with: python -m venv .venv && pip install -r requirements.txt)
+.venv/
+venv/
+env/
+
+# Datasets — public CIFAR-10, downloaded automatically on first run (see README)
+data/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Heavy intermediate video working files (final demo.mp4 is kept)
+results/video/_work/
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

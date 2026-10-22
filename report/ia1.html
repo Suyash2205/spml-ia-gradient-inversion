@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>SPML IA-1</title>
+<style>@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body {
+  font-family: "Georgia", "Cambria", serif;
+  font-size: 10.5pt; line-height: 1.5; color: #1a1d21;
+  margin: 0; counter-reset: fig tbl;
+}
+h1, h2, h3, h4 { font-family: "Segoe UI", "Helvetica Neue", sans-serif; color: #111; line-height: 1.25; }
+h1 { font-size: 20pt; margin: 0 0 4pt; }
+h2 { font-size: 14pt; margin: 20pt 0 6pt; padding-bottom: 3pt; border-bottom: 2px solid #b0353a; color: #8f2b30; }
+h3 { font-size: 11.5pt; margin: 13pt 0 4pt; color: #222; }
+h4 { font-size: 10.5pt; margin: 10pt 0 3pt; color: #444; }
+p { margin: 5pt 0; text-align: justify; }
+a { color: #8f2b30; text-decoration: none; }
+code, .mono { font-family: "Consolas", "Courier New", monospace; font-size: 9pt; }
+pre {
+  background: #f6f7f9; border: 1px solid #e0e3e8; border-left: 3px solid #b0353a;
+  padding: 8pt 10pt; font-family: "Consolas", monospace; font-size: 8.3pt;
+  line-height: 1.4; overflow-x: hidden; white-space: pre-wrap; border-radius: 3px;
+}
+table { border-collapse: collapse; width: 100%; margin: 8pt 0; font-size: 9pt; }
+th, td { border: 1px solid #c8ccd2; padding: 4pt 7pt; text-align: left; vertical-align: top; }
+th { background: #f0e7e7; font-family: "Segoe UI", sans-serif; font-size: 8.6pt; color: #5a2327; }
+tr:nth-child(even) td { background: #fafafb; }
+.cover { text-align: center; padding-top: 30mm; page-break-after: always; }
+.cover .uni { font-family: "Segoe UI", sans-serif; font-size: 15pt; font-weight: 600; color: #8f2b30; }
+.cover .dept { font-family: "Segoe UI", sans-serif; font-size: 11pt; margin-top: 3pt; color: #333; }
+.cover .title { font-size: 22pt; font-weight: 700; margin: 24mm 8mm 6mm; color: #111; font-family: "Segoe UI", sans-serif; }
+.cover .sub { font-size: 13pt; color: #555; margin-bottom: 26mm; }
+.cover .meta { display: inline-block; text-align: left; font-size: 12pt; line-height: 1.9; border: 1px solid #d0d0d0; padding: 10pt 26pt; border-radius: 5px; background: #fafafb; }
+.cover .meta b { font-family: "Segoe UI", sans-serif; }
+.abstract { background: #f7f4f4; border: 1px solid #e3d6d6; padding: 9pt 13pt; border-radius: 4px; margin: 10pt 0; font-size: 9.6pt; }
+.abstract b { color: #8f2b30; font-family: "Segoe UI", sans-serif; }
+.fig { text-align: center; margin: 12pt 0; page-break-inside: avoid; }
+.fig img { max-width: 100%; border: 1px solid #d5d8dd; border-radius: 3px; }
+.fig .cap { font-size: 8.4pt; color: #555; margin-top: 4pt; font-family: "Segoe UI", sans-serif; }
+.fig .cap::before { counter-increment: fig; content: "Figure " counter(fig) ". "; font-weight: 600; color: #8f2b30; }
+.tcap { font-size: 8.4pt; color: #555; margin: 2pt 0 8pt; font-family: "Segoe UI", sans-serif; }
+.tcap::before { counter-increment: tbl; content: "Table " counter(tbl) ". "; font-weight: 600; color: #8f2b30; }
+.two { display: flex; gap: 14pt; }
+.two > div { flex: 1; }
+.pill { display: inline-block; background: #8f2b30; color: #fff; font-family: "Segoe UI", sans-serif; font-size: 7.5pt; padding: 1pt 7pt; border-radius: 9px; vertical-align: middle; }
+.callout { border-left: 3px solid #b0353a; background: #fcf8f8; padding: 6pt 11pt; margin: 8pt 0; font-size: 9.6pt; }
+ul, ol { margin: 5pt 0 5pt 2pt; padding-left: 16pt; }
+li { margin: 2.5pt 0; text-align: justify; }
+.gal { display: flex; align-items: center; gap: 6pt; justify-content: center; margin: 5pt 0; }
+.gal img { width: 95px; height: 95px; image-rendering: pixelated; border: 1px solid #ccc; }
+.gal span { font-size: 15pt; color: #8f2b30; }
+.ref { font-size: 8.7pt; text-indent: -16pt; padding-left: 16pt; margin: 3pt 0; }
+.sec-break { page-break-before: always; }
+.small { font-size: 8.6pt; color: #555; }
+.eq { text-align: center; margin: 7pt 0; font-family: "Cambria Math", "Georgia", serif; font-style: italic; }
+footer { position: fixed; bottom: 6mm; left: 0; right: 0; text-align: center; font-size: 7pt; color: #aaa; font-family: "Segoe UI", sans-serif; }
+</style></head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="uni">K. J. Somaiya School of Engineering</div>
+  <div class="dept">Somaiya Vidyavihar University &middot; Department of Artificial Intelligence &amp; Data Science</div>
+  <div class="dept">Honour Programme in Applied Cyber Security</div>
+  <div class="title">Breaking Privacy in Federated Learning:<br>A Gradient-Inversion Attack and a Comparative Study of Privacy Defences</div>
+  <div class="sub">Internal Assessment 1 &mdash; Problem Formulation and Preliminary Implementation</div>
+  <div class="meta">
+    <div><b>Course:</b> Security and Privacy for Machine Learning (216H17C701)</div>
+    <div><b>Name:</b> Suyash Humne</div>
+    <div><b>Roll No.:</b> 16014223085</div>
+    <div><b>Batch:</b> B2 &middot; Semester VII &middot; A.Y. 2026&ndash;27</div>
+    <div><b>Submission type:</b> Individual research work</div>
+  </div>
+</div>
+
+<h1>Breaking Privacy in Federated Learning</h1>
+<div class="small">IA-1 &middot; Problem Formulation and Preliminary Implementation &middot; Suyash Humne (16014223085)</div>
+
+<div class="abstract">
+<b>Abstract.</b> Federated learning (FL) is widely promoted on the premise that
+"data never leaves the device" &mdash; participants share only model gradients,
+not their raw data. This project interrogates that premise directly. We
+implement a <b>gradient-inversion attack</b> in which an honest-but-curious
+server reconstructs a client's private training image, pixel-by-pixel, from the
+single gradient the client uploads. Using the cosine-similarity gradient-matching
+method of Geiping&nbsp;et&nbsp;al. (2020) with total-variation regularisation and
+analytic label recovery (iDLG), our attacker correctly recovers the
+private label and reconstructs the image at <b>24.53&nbsp;dB PSNR</b>
+from only 19,438 gradient values, with no access to the pixels. The
+attack is the lens through which the five course modules are unified: it
+motivates and is measured against the privacy defences of Differential Privacy
+(Module&nbsp;2), Local Differential Privacy (Module&nbsp;3), Privacy-Preserving
+Data Mining / anonymity (Module&nbsp;4) and Compressive Privacy (Module&nbsp;5),
+with Module&nbsp;1 providing the threat model. This IA-1 report establishes the
+problem, maps it to all five modules, prepares the dataset, and demonstrates the
+working attack as the preliminary implementation; IA-2 completes the defence
+comparison and evaluation.
+</div>
+
+<h2>1&nbsp;&nbsp;Problem Definition and Significance</h2>
+
+<h3>1.1&nbsp;&nbsp;Context and motivation</h3>
+<p>Machine learning increasingly trains on data that is legally and ethically
+sensitive &mdash; medical records, financial histories, biometric images.
+<b>Federated learning</b> (McMahan et&nbsp;al., 2017) was introduced precisely to
+make such training privacy-respecting: instead of centralising raw data, each
+participant (a hospital, a phone, a bank) keeps its data locally, computes the
+gradient of the shared model's loss on that local data, and transmits only the
+gradient to a central server, which aggregates the gradients to update the global
+model. The marketing claim is simple and appealing: <i>your data never leaves
+your device.</i></p>
+<p>The security question this project asks is equally simple: <b>is a gradient
+actually safe to share?</b> A gradient is a deterministic function of the private
+data and the known model parameters. If that function is even partially
+invertible, then "sharing a gradient" leaks "sharing the data" &mdash; and the
+entire privacy argument for federated learning collapses. This is not a
+hypothetical: the 2019&ndash;2022 literature on <i>deep leakage from gradients</i>
+established that gradients can be inverted to recover training inputs with
+alarming fidelity.</p>
+
+<h3>1.2&nbsp;&nbsp;Problem statement</h3>
+<div class="callout">
+Given a neural network with known architecture and parameters, and the gradient
+of its loss computed on a client's single private training example, can an
+honest-but-curious server <b>reconstruct that private example</b> (its pixels and
+its label) without ever observing the data &mdash; and which privacy mechanisms
+from the course syllabus can measurably prevent or degrade this reconstruction,
+and at what cost to model utility?
+</div>
+
+<h3>1.3&nbsp;&nbsp;Objectives</h3>
+<ol>
+<li><b>Attack.</b> Implement a working gradient-inversion attack that reconstructs
+a private image and recovers its label from a shared gradient, in a simulated
+federated-learning setting.</li>
+<li><b>Quantify.</b> Measure reconstruction fidelity with standard image-quality
+metrics (MSE, PSNR, SSIM, LPIPS) and extend the attack from a single image to
+small batches to map its limits.</li>
+<li><b>Defend.</b> Implement and evaluate four defence families drawn from the
+five syllabus modules &mdash; differential privacy, local differential privacy,
+compressive (sparsification / quantization) privacy, and anonymity-based
+aggregation &mdash; against the same attack.</li>
+<li><b>Trade-off.</b> Characterise the privacy&ndash;utility trade-off of each
+defence: how much reconstruction quality falls versus how much model accuracy is
+sacrificed.</li>
+<li><b>Corroborate.</b> Add a second, complementary privacy attack
+(<b>membership inference</b>, LiRA) to measure leakage quantitatively and to
+audit the differential-privacy guarantee empirically.</li>
+</ol>
+
+<h3>1.4&nbsp;&nbsp;Scope and expected outcome</h3>
+<p>The scope is the <i>honest-but-curious server</i> threat model on image data
+(CIFAR-10 as a public, reproducible stand-in for private image data such as
+medical scans). Malicious-server attacks that modify the model architecture
+(e.g. <i>Robbing the Fed</i>) are discussed analytically and used for
+cross-validation but are out of the implementation scope for IA-1. The expected
+outcome is a reproducible benchmark showing (a)&nbsp;that gradient sharing leaks
+private data, and (b)&nbsp;a ranked, measured comparison of the syllabus defences
+against that leak. This is, to our knowledge, not available as a single unified
+study across all four defence families under one attack &mdash; which is the
+individual research contribution (Section&nbsp;7).</p>
+
+<h2>2&nbsp;&nbsp;Mapping to the Five Course Modules</h2>
+<p>The problem was chosen specifically because a single attack&ndash;defence
+pipeline exercises every module of the syllabus. Module&nbsp;1 supplies the
+threat model and the attack; Modules&nbsp;2&ndash;5 each supply a defence that is
+implemented and measured against that attack.</p>
+
+<table>
+<tr><th style="width:16%">Module</th><th style="width:30%">Syllabus content</th><th>Role in this project</th><th style="width:13%">Treatment</th></tr>
+<tr><td><b>M1 &mdash; Privacy Considerations in ML</b></td>
+<td>Privacy complications in the AI era; threats and attacks for ML systems;
+privacy-preserving learning from data.</td>
+<td>Provides the <b>threat model</b> (honest-but-curious server, what it knows and
+receives) and the <b>attack taxonomy</b>. The gradient-inversion attack is a
+direct instance of "threats and attacks for ML systems". Motivates why sharing
+gradients &ne; privacy.</td>
+<td>Implemented (the attack) + analysed</td></tr>
+
+<tr><td><b>M2 &mdash; Differential Privacy</b></td>
+<td>Mechanism and properties of DP; applying DP in ML; differentially private
+supervised/unsupervised learning.</td>
+<td><b>Core defence.</b> DP-SGD clips and adds calibrated Gaussian noise to
+gradients, bounding any single example's influence &mdash; exactly the influence
+the attack exploits. We sweep the noise/&epsilon; and measure both reconstruction
+collapse and the membership-inference bound it certifies.</td>
+<td>Implemented + evaluated</td></tr>
+
+<tr><td><b>M3 &mdash; Local Differential Privacy</b></td>
+<td>LDP and its mechanisms; advanced LDP; the piecewise mechanism; LDP with
+na&iuml;ve-Bayes classification.</td>
+<td>Defence under a <b>stronger trust model</b>: each client randomises its own
+update <i>before</i> upload, assuming no trusted server. We contrast LDP's
+per-client noise and its larger utility cost against central DP, directly
+illustrating the local-vs-central distinction from the module.</td>
+<td>Implemented + evaluated</td></tr>
+
+<tr><td><b>M4 &mdash; Privacy-Preserving Data Mining</b></td>
+<td>Protecting privacy by modifying the input / while publishing data;
+k-anonymity and beyond; modifying the mining output.</td>
+<td>The FL aggregate is framed as an <b>anonymity-set</b> argument: a client is
+"hidden among k" in secure aggregation, analogous to k-anonymity. We analyse how
+batch averaging and aggregation obscure individual gradients and why this is
+necessary but not sufficient, connecting "protecting privacy while publishing"
+to gradient publishing.</td>
+<td>Implemented (aggregation) + analysed</td></tr>
+
+<tr><td><b>M5 &mdash; Compressive Privacy</b></td>
+<td>Mechanisms of compressive privacy; using compressive privacy for ML; the
+accuracy of the utility task.</td>
+<td>Defence by <b>dimensionality reduction / compression</b> of the shared
+gradient: sparsification (gradient pruning / Top-k) and bit-depth quantization
+discard information the attacker needs. We sweep compression strength and plot
+the accuracy-of-the-utility-task against reconstruction quality &mdash; precisely
+the compressive-privacy trade-off.</td>
+<td>Implemented + evaluated</td></tr>
+</table>
+<div class="tcap">Mapping of the research problem to all five syllabus modules.</div>
+
+<h2 class="sec-break">3&nbsp;&nbsp;Conceptual Understanding and Methodology</h2>
+
+<h3>3.1&nbsp;&nbsp;Why a gradient leaks data</h3>
+<p>For a model with parameters &theta; and loss <i>L</i>, a client holding a
+private example (<i>x</i>,&nbsp;<i>y</i>) uploads the gradient
+<i>g</i>&nbsp;=&nbsp;&nabla;<sub>&theta;</sub><i>L</i>(<i>f</i><sub>&theta;</sub>(<i>x</i>),&nbsp;<i>y</i>).
+The attacker knows &theta;, <i>f</i> and <i>L</i>, and receives <i>g</i>. It
+reconstructs the input by searching for a synthetic image
+<i>x&#770;</i> whose gradient <i>g&#770;</i> best matches the observed <i>g</i>:</p>
+<div class="eq">x&#770;* = arg min<sub>x&#770;</sub> &nbsp; D(&nabla;<sub>&theta;</sub>L(f<sub>&theta;</sub>(x&#770;), y&#770;),&nbsp; g) &nbsp;+&nbsp; &alpha;&middot;TV(x&#770;)</div>
+<p>Intuitively, the gradient encodes "how each pixel of the input would need to
+change to reduce the loss", which is a rich, differentiable fingerprint of the
+input itself. The reconstruction is an optimisation <i>over the input</i> while
+the network weights are held fixed.</p>
+
+<h3>3.2&nbsp;&nbsp;Design choices (and why)</h3>
+<ul>
+<li><b>Direction, not magnitude &mdash; cosine loss.</b> We match gradients by
+<i>negative cosine similarity</i>, D(&middot;)&nbsp;=&nbsp;1&nbsp;&minus;&nbsp;cos(g&#770;,&nbsp;g),
+rather than Euclidean distance. Cosine matching is magnitude-invariant and far
+more stable than the original DLG L<sub>2</sub> objective, especially as the
+model trains and gradient norms shrink (Geiping et&nbsp;al., 2020).</li>
+<li><b>Total-variation prior.</b> We add &alpha;&middot;TV(<i>x&#770;</i>), the
+anisotropic total variation of the candidate, which penalises high-frequency
+noise and pushes the reconstruction toward the piecewise-smooth statistics of
+natural images.</li>
+<li><b>Analytic label recovery (iDLG).</b> The ground-truth label need not be
+optimised: for single-sample cross-entropy, the class whose row of the final
+layer's weight-gradient has negative sign is the true label. We read it off
+directly, which removes a major source of instability.</li>
+<li><b>Smooth activations, untrained network.</b> A small LeNet with
+<i>Sigmoid</i> activations (not ReLU) and a freshly initialised (untrained)
+network leak the cleanest reconstructions &mdash; the easiest, clearest regime
+for the demonstration, and the honest worst case for the defender.</li>
+<li><b>Restarts + group consistency.</b> Reconstruction is seed-sensitive, so we
+run several random restarts and take a pixel-wise consensus (median) over
+candidates &mdash; the near-free quality trick from GradInversion.</li>
+</ul>
+
+<h3>3.3&nbsp;&nbsp;Workflow</h3>
+<div class="fig">
+<svg width="620" height="250" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, sans-serif" font-size="11">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8f2b30"/></marker></defs>
+  <rect x="10" y="30" width="180" height="150" rx="7" fill="#f3f6fa" stroke="#4a6" stroke-width="1.5"/>
+  <text x="100" y="52" text-anchor="middle" font-weight="700" fill="#2a7">HOSPITAL CLIENT</text>
+  <text x="100" y="78" text-anchor="middle">holds private image x</text>
+  <text x="100" y="98" text-anchor="middle">computes gradient g</text>
+  <text x="100" y="118" text-anchor="middle">of loss on (x, y)</text>
+  <rect x="30" y="134" width="140" height="30" rx="4" fill="#dff0e3" stroke="#4a6"/>
+  <text x="100" y="153" text-anchor="middle" font-size="10">uploads ONLY g</text>
+
+  <line x1="190" y1="149" x2="430" y2="149" stroke="#8f2b30" stroke-width="2" marker-end="url(#a)"/>
+  <text x="310" y="140" text-anchor="middle" fill="#8f2b30" font-size="9.5">gradient g (no pixels)</text>
+
+  <rect x="430" y="30" width="180" height="150" rx="7" fill="#fcf3f3" stroke="#b0353a" stroke-width="1.5"/>
+  <text x="520" y="52" text-anchor="middle" font-weight="700" fill="#b0353a">CURIOUS SERVER</text>
+  <text x="520" y="78" text-anchor="middle">1. recover label (iDLG)</text>
+  <text x="520" y="98" text-anchor="middle">2. optimise x&#770; to</text>
+  <text x="520" y="116" text-anchor="middle">match g (cosine+TV)</text>
+  <rect x="450" y="132" width="140" height="32" rx="4" fill="#f7dede" stroke="#b0353a"/>
+  <text x="520" y="152" text-anchor="middle" font-size="10">reconstructs x&#770; &asymp; x</text>
+
+  <text x="310" y="210" text-anchor="middle" fill="#444" font-size="10">Defences (Modules 2&ndash;5) transform g before upload &rarr; degrade x&#770;</text>
+  <line x1="310" y1="164" x2="310" y2="196" stroke="#999" stroke-width="1.2" stroke-dasharray="3,3"/>
+</svg>
+<div class="cap">End-to-end attack workflow. Defences act on the gradient in transit and are measured by how much they degrade the server's reconstruction.</div>
+</div>
+
+<h2>4&nbsp;&nbsp;Dataset Identification and Preliminary Preparation</h2>
+<table>
+<tr><th style="width:28%">Field</th><th>Value</th></tr>
+<tr><td>Dataset</td><td>CIFAR-10 (60,000 32&times;32 RGB images, 10 classes)</td></tr>
+<tr><td>Source / URL</td><td>https://www.cs.toronto.edu/~kriz/cifar.html (Krizhevsky, 2009)</td></tr>
+<tr><td>Collection method</td><td>Curated subset of the 80-million-tiny-images corpus; publicly released for research.</td></tr>
+<tr><td>License / usage</td><td>Released for research use (MIT-maintained redistribution). No personal or sensitive data; lawfully accessible, consistent with the IA data policy.</td></tr>
+<tr><td>Preprocessing</td><td>Per-channel normalisation (mean = [0.4914, 0.4822, 0.4465], std = [0.2470, 0.2435, 0.2616]); cached as tensors for reproducibility.</td></tr>
+<tr><td>Role of each split</td><td>A single image is the "private" client sample for the attack; a 5,000&ndash;8,000-image subset trains shadow/utility models for the defence and membership-inference experiments; the test split measures utility.</td></tr>
+<tr><td>Why suitable</td><td>Small enough to run many experiments on a 4&nbsp;GB GPU; a standard, reproducible benchmark in the gradient-leakage literature; a faithful public stand-in for private image data (e.g. medical scans) without using any real sensitive data.</td></tr>
+</table>
+<div class="tcap">Dataset provenance and preparation record.</div>
+<p class="small">A deliberate ethical choice: because the project is about <i>privacy</i>, it
+uses only a public, non-personal dataset. The medical framing in the motivation
+is illustrative; no real patient data is used or required.</p>
+
+<h2 class="sec-break">5&nbsp;&nbsp;Initial Implementation and Demonstration</h2>
+<p>The preliminary implementation is the <b>working attack</b>, run as a scripted
+one-round federated-learning demonstration (<span class="mono">src/federated_demo.py</span>).
+The client computes and "uploads" the gradient; the curious server recovers the
+label and reconstructs the pixels. Tools: Python&nbsp;3.13, PyTorch&nbsp;2.14
+(CUDA) on an NVIDIA GTX&nbsp;1650.</p>
+
+<div class="fig">
+<div class="two" style="max-width:420px;margin:0 auto;">
+  <div style="text-align:center"><img src="data:image/png;base64,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" style="width:150px;image-rendering:pixelated"><div class="small">original (private)</div></div>
+  <div style="text-align:center"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAHYElEQVR4nG1WSW8byRX+qrt6J5tskpJM27K8x3EcO9slc8gpQI75XfkhuQbIMcgtgwSYAEEWD+DxwLBsyZZEcW+y16rqCl416fEEKRBcitVv+d73vnrs93/4HQDULKQP9+AohAAUhwJnYFBwqmILSf/C6Qectd8yCVRrQOVoAKVzjaYuzX+AB8Dq+l0AHFn7gM7BQljzbTOEBQ7YkE0NQAoOi3GAxeak3hmhr8p8tC4prv1qLFi7r3zntCGfIe3WGI7pIafCptS078A3Z+z980qhshuldqbNO2P02nmXgLt3sA8GtyPcwzNEZND4wSbIkdGJGkfg0/2zgqOp0aCSCpSCDQ3jy6EQdi68XVDgAogxenb3LuDYsYNSmAAQAAF/pPt0qEK5LT1Al2hQLCQhZ9MbFNkrCB9rlyKDxQmtfbr8B49+emxbrA2brLdpmaKyhpmQPGgGTXaAskENzckqN3ETiJ9KwwAvsBB4n/b4sU256E+lam0AbYq+2SiwqxThoLDYFFwpL6hgs+uPm1LhhHcwsMF5DXhOZEre8g4c0lBB1zkk1G6XTJc2gjAHNvUUS4PHdinbQJdyXm4yhTprLt5ebiH/Af3kyejps3sO29Fnlxc50OZhAyjSFtEAzYY2VqtzZPO329PJFBJe39NpvdCLXOXLD4UGtmVqcPPrtPSxePrkRRgSGkzC3vOUV4oKsneYybqEyut1mUP+6c31x49vAKSNAhS7JML2Q8/pdpKjzmIybStWo0SMJLFwMXEfPmyQGyLvM2jS6XfgqxUU9dUKztnp+dXqEh6vUKCAltl8g3F/R75CyXV91XaO72LM4rMpnPnFrx/+0hITjdknkLiWEighzW9pbamezfUF/vXxDAgevXgxnb3++E7K9RYNMilCdOtlg6xwrRAmWgCzWlBDhcjEJCIuGMYY7Hm6uvqUQZ5hgmK2xOv520nZDBjef/vvzsDXXrki4golu1k6t0PXTzph1Z+tZoaAttCZZtHX87n648vf/PbHwBDYZjl556jSJVjFuVzgq9OLqoZ3YwCga3nQWHzIZh/el5AdxwWcUGSQjhu61N4ey6RGDb+E7aPMSNT+efFy/Mb74cObAGlCBvBtAWHrxTR9N78sUgkfapNlc0AWFwUG4OsGsJxbt8aySsuZsImoXk0Yt52HiEQT2xYDhb//ZRIHo1t9zzINwbO0eAu8vT7frNpCS7WWOxgX6yWAhN2+O7YA1zkst2W6TSFk4sY1hqiJzRZ6RHHjIoSN/EJenaDvtVXmC7G8OFtfZQLwk55dbySZ1lpUyCPR95JR7OaLKh70KXSGaNCDA95pnBKjZMTM7UFC4+O6xLEx+p/FpbNgvQFBbX1zWV3MNvOirIrV4mqOsOuFXQWkVeb5/u2bT4GkNIyoZRl5eH5/PAqgpfSMpnEcNqa7Y9hPYEdAM0Q2x5d/peTJwURRKWJ4h70RnYu94cij3uv4jx+dgF0u1+cR0E8iCdh9C4GfTXO13WIrUekci7pZ+7COfzZ+/MXNx1/cZ4hKPS118eWfX8+vSk63lu4ObwY+cKCIKy1/Y8aSaPDm9NQDXG57nLq/mJev5t94sKWoOHA7BvxeGPZcH7wTk65vGRWFyLvZIPzq5TkH0hCKIYDHbW+ciRwCGvygyyFlcjzsjof3emP4wbATo96mG5Fltao1tx3NCSOXW0BRXKXpZgK+a3Vwo//IOSSarnI9NLCWqzRfTTWcUXgUJOj0gofPDyQqgQ42pqUoQxGF1kaWSouQWGNFoH4uq+VO3feXJJWI0S+6AS/fTY1+uhFi0+aWbR8y4NvXE0jeGwo6yi0SRh+qQCeyGSLud1pqOxBdFinUq0YhrYztKsMBGRok8aJON9UUFWXF0ZyMTzpxD3Y1W63phuA0ZZgxwbGpPYGGWcw184uQNLdUAHd5DI58RZTS7WVmIuWuizs+phlqXKMKgmEvTEK7ppoNb99grhazStslqobopqTaKjRg0FtRN2UO0chQDcNOd5gU8xlhFNqQ9oYKuWAAP4pHR8PRfWV9/beJEQ9W5ioK2zkMqC3ElHFViSqTcoUGdSUFA2+qgkK03MRMNtiWruj7JNSEgy/IVgPwnzx4xHt9YBlr6/T9m0mpZ9P5DFix7o8Soxla1StCgdzJSbXIV2mDAJGLYNzr2jQ+qKpYbVpp4vC5gwZHw1+YwYIb6zSm3Lf8ZY9dLrTAGk31/tV1I9Lo6O5BywvTmI3AYp2SclsdOCjPVUkqVCsBifpWb/CrB0+90KacDkknjIMdp9zuiI830StMCoHABlQ2uyjm87MzoI+O7QmQqC0zKAg4Yj3fgvs1/IJGlAYWov4JLM/Q/7AN+nukBZIH1qm0/Im3EoidJBzAsyDT1UYVYm3SLQAr2FOc2FIUku5T4tbzWwQobwffz9Z+RoUlYB0duM+j0AOcTnLnRnLH9e+Eh/bw05T22dxrlhlydpxEBwkcGknt78L/fgYAjmHn+Lnj1kSKtq7/u8xU83/dtWtOiH62/gupY5rkOtNbhgAAAABJRU5ErkJggg==" style="width:150px;image-rendering:pixelated"><div class="small">server's reconstruction</div></div>
+</div>
+<div class="cap">The server reconstructs the client's private "frog" image from the
+gradient alone (PSNR 24.53&nbsp;dB, SSIM 0.898, LPIPS 0.013),
+and correctly recovers the label as "frog".</div>
+</div>
+
+<div class="callout">
+<b>Preliminary result.</b> From only <b>19,438 gradient values</b> and
+zero access to the pixels, the honest-but-curious server reconstructed the private
+image at <b>24.53&nbsp;dB PSNR</b> in 152&nbsp;s. Sharing a
+gradient leaked the data.
+</div>
+
+<h4>Reconstruction gallery (additional samples)</h4>
+<div><div class=gal><img src='data:image/png;base64,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'><span>&rarr;</span><img src='data:image/png;base64,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'></div><div class=gal><img src='data:image/png;base64,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'><span>&rarr;</span><img src='data:image/png;base64,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'></div></div>
+<div class="small">Original &rarr; reconstruction for further CIFAR-10 samples, confirming the attack is not cherry-picked.</div>
+
+<h4>Core attack loop (excerpt)</h4>
+<pre>rec = 1 - cos(dummy_grad, true_grad)          # direction match (Geiping 2020)
+loss = rec + tv_weight * total_variation(dummy)
+loss.backward(); opt.step()                   # optimise the IMAGE, not the model
+# label recovered analytically from sign of last-layer gradient (iDLG)</pre>
+
+<h2>6&nbsp;&nbsp;Preliminary Evaluation, Limitations and Plan for IA-2</h2>
+<h3>6.1&nbsp;&nbsp;Observations</h3>
+<ul>
+<li>The attack reliably recovers the label (analytic, deterministic) and a
+high-fidelity image for a single untrained-network sample.</li>
+<li>Reconstruction quality is seed-sensitive; restarts + median consensus
+materially stabilise it.</li>
+<li>Evaluation measures adopted: MSE, PSNR, SSIM (structural) and LPIPS
+(perceptual) for reconstruction; accuracy/AUC and TPR@low-FPR for membership
+inference; achieved &epsilon; for the DP guarantee.</li>
+</ul>
+<h3>6.2&nbsp;&nbsp;Known limitations (to address in IA-2)</h3>
+<ul>
+<li>Single-image regime is the easiest case; batch reconstruction is harder and
+is being extended (sizes 1&rarr;4&rarr;8).</li>
+<li>LeNet has no BatchNorm, so the strongest known prior (BN-statistics matching)
+is not yet used; a BN variant is planned as an ablation.</li>
+<li>Defences are evaluated on this model scale; generalisation to deeper networks
+is discussed, not exhaustively measured.</li>
+</ul>
+<h3>6.3&nbsp;&nbsp;Plan for IA-2</h3>
+<ol>
+<li>Complete the four-defence privacy&ndash;utility sweep and the membership-inference
+DP audit (empirical vs analytical &epsilon;).</li>
+<li>Cross-validate the hand-written attack against the published <i>breaching</i>
+framework.</li>
+<li>Add the malicious-server contrast (Robbing-the-Fed) analytically.</li>
+<li>Assemble the final technical report and an IEEE-format paper draft.</li>
+</ol>
+
+<h2>7&nbsp;&nbsp;Individual Contribution Statement</h2>
+<p>All code, experiments, figures and analysis in this submission are my own
+individual work. My specific contributions are: (i)&nbsp;the unified
+attack&ndash;defence benchmark design that measures four distinct syllabus
+defence families against a single gradient-inversion attack &mdash; a comparison
+not previously assembled in one study; (ii)&nbsp;a from-scratch implementation of
+the cosine+TV+iDLG attack with restart-median group consistency;
+(iii)&nbsp;the privacy&ndash;utility evaluation protocol spanning reconstruction
+metrics and membership-inference auditing; and (iv)&nbsp;the full reproducible
+pipeline and documentation. External references are cited in Section&nbsp;8.</p>
+
+<h2>8&nbsp;&nbsp;References</h2>
+<div class="ref">[1] L. Zhu, Z. Liu, S. Han. "Deep Leakage from Gradients." <i>NeurIPS</i>, 2019.</div>
+<div class="ref">[2] B. Zhao, K. Mopuri, H. Bilen. "iDLG: Improved Deep Leakage from Gradients." <i>arXiv:2001.02610</i>, 2020.</div>
+<div class="ref">[3] J. Geiping, H. Bauermeister, H. Dr&ouml;ge, M. Moeller. "Inverting Gradients &mdash; How Easy Is It to Break Privacy in Federated Learning?" <i>NeurIPS</i>, 2020.</div>
+<div class="ref">[4] H. Yin et&nbsp;al. "See through Gradients: Image Batch Recovery via GradInversion." <i>CVPR</i>, 2021.</div>
+<div class="ref">[5] M. Abadi et&nbsp;al. "Deep Learning with Differential Privacy." <i>ACM CCS</i>, 2016.</div>
+<div class="ref">[6] N. Carlini et&nbsp;al. "Membership Inference Attacks From First Principles." <i>IEEE S&amp;P</i>, 2022.</div>
+<div class="ref">[7] B. McMahan et&nbsp;al. "Communication-Efficient Learning of Deep Networks from Decentralized Data." <i>AISTATS</i>, 2017.</div>
+<div class="ref">[8] K. Bonawitz et&nbsp;al. "Practical Secure Aggregation for Privacy-Preserving Machine Learning." <i>ACM CCS</i>, 2017.</div>
+<div class="ref">[9] R. Zhang et&nbsp;al. "A Survey on Gradient Inversion: Attacks, Defenses and Future Directions." <i>IJCAI</i>, 2022.</div>
+<div class="ref">[10] A. Krizhevsky. "Learning Multiple Layers of Features from Tiny Images." Tech. report, 2009.</div>
+
+</body></html>
