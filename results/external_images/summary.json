@@ -1,0 +1,57 @@
+{
+  "source": "skimage.data (public-domain test photographs)",
+  "note": "resized to 32x32; same LeNet client model as the rest of the project",
+  "iters": 2800,
+  "restarts": 2,
+  "device": "cuda",
+  "results": [
+    {
+      "name": "astronaut",
+      "caption": "a person (astronaut)",
+      "assigned_label": 0,
+      "recovered_label": 0,
+      "label_correct": true,
+      "seconds": 58.4,
+      "mse": 0.009110789746046066,
+      "psnr_db": 20.404439756632037,
+      "ssim": 0.8612930178642273,
+      "lpips": 0.015378952026367188
+    },
+    {
+      "name": "chelsea",
+      "caption": "a cat",
+      "assigned_label": 3,
+      "recovered_label": 3,
+      "label_correct": true,
+      "seconds": 52.5,
+      "mse": 0.0019429175881668925,
+      "psnr_db": 27.115456202769117,
+      "ssim": 0.8488790988922119,
+      "lpips": 0.027122709900140762
+    },
+    {
+      "name": "coffee",
+      "caption": "a coffee cup",
+      "assigned_label": 5,
+      "recovered_label": 5,
+      "label_correct": true,
+      "seconds": 52.2,
+      "mse": 0.007465694099664688,
+      "psnr_db": 21.269298088845773,
+      "ssim": 0.761136531829834,
+      "lpips": 0.017853664234280586
+    },
+    {
+      "name": "rocket",
+      "caption": "a rocket",
+      "assigned_label": 0,
+      "recovered_label": 0,
+      "label_correct": true,
+      "seconds": 52.4,
+      "mse": 0.0013837526785209775,
+      "psnr_db": 28.589415254514293,
+      "ssim": 0.9055690169334412,
+      "lpips": 0.013786209747195244
+    }
+  ]
+}

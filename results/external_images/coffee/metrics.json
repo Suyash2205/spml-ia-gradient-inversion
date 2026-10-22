@@ -1,0 +1,12 @@
+{
+  "name": "coffee",
+  "caption": "a coffee cup",
+  "assigned_label": 5,
+  "recovered_label": 5,
+  "label_correct": true,
+  "seconds": 52.2,
+  "mse": 0.007465694099664688,
+  "psnr_db": 21.269298088845773,
+  "ssim": 0.761136531829834,
+  "lpips": 0.017853664234280586
+}

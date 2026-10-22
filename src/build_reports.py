@@ -138,6 +138,30 @@ def build_tokens():
         gal += (f"<div class=gal><img src='{img_b64(gt)}'><span>&rarr;</span>"
                 f"<img src='{img_b64(g)}'></div>")
     t["GALLERY"] = gal
+
+    # external (non-dataset) photographs — proof the attack generalises
+    ext = load_json("external_images/summary.json")
+    egal, erows = "", ""
+    for r in (ext.get("results", []) or []):
+        sub = f"results/external_images/{r['name']}"
+        gt = img_b64(f"{sub}/ground_truth.png")
+        rc = img_b64(f"{sub}/reconstruction.png")
+        egal += (
+            "<div style='display:inline-block;text-align:center;margin:6px 10px;"
+            "vertical-align:top'>"
+            f"<img src='{gt}' style='width:78px;image-rendering:pixelated;"
+            "border:1px solid #bbb'>"
+            "<span style='margin:0 5px;color:#b55'>&rarr;</span>"
+            f"<img src='{rc}' style='width:78px;image-rendering:pixelated;"
+            "border:1px solid #bbb'>"
+            f"<div class='small'>{r['caption']} &middot; {fmt(r['psnr_db'])} dB</div>"
+            "</div>")
+        erows += (f"<tr><td>{r['caption']}</td>"
+                  f"<td>{'yes' if r.get('label_correct') else 'no'}</td>"
+                  f"<td>{fmt(r.get('psnr_db'))}</td>"
+                  f"<td>{fmt(r.get('ssim'), 3)}</td></tr>")
+    t["EXTERNAL_GALLERY"] = egal
+    t["EXTERNAL_ROWS"] = erows or "<tr><td colspan=4>pending</td></tr>"
     return t
 
 

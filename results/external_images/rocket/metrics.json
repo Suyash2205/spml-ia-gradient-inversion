@@ -1,0 +1,12 @@
+{
+  "name": "rocket",
+  "caption": "a rocket",
+  "assigned_label": 0,
+  "recovered_label": 0,
+  "label_correct": true,
+  "seconds": 52.4,
+  "mse": 0.0013837526785209775,
+  "psnr_db": 28.589415254514293,
+  "ssim": 0.9055690169334412,
+  "lpips": 0.013786209747195244
+}

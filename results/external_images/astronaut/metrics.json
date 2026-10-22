@@ -1,0 +1,12 @@
+{
+  "name": "astronaut",
+  "caption": "a person (astronaut)",
+  "assigned_label": 0,
+  "recovered_label": 0,
+  "label_correct": true,
+  "seconds": 58.4,
+  "mse": 0.009110789746046066,
+  "psnr_db": 20.404439756632037,
+  "ssim": 0.8612930178642273,
+  "lpips": 0.015378952026367188
+}

@@ -108,6 +108,32 @@ batch reconstruction, and the membership-inference attack, orchestrated by
 <div class="cap">Headline attack result: private "{{HERO_CLASS}}" image reconstructed from {{HERO_FLOATS}} gradient values; label {{HERO_LABEL_OK}} recovered as "{{HERO_REC_CLASS}}".</div>
 </div>
 
+<h3>4.1&nbsp;&nbsp;Generalisation beyond the dataset: reconstructing arbitrary photographs</h3>
+<p>To confirm the leakage is a property of federated learning itself and not an
+artefact of CIFAR-10, we repeated the attack on ordinary photographs that the
+model has never been trained on &mdash; <b>including a photograph of a person</b>.
+Each photo is treated as a single client's private training sample: it is resized
+to the client model's 32&times;32 input, the client uploads only the resulting
+gradient, and the honest-but-curious server inverts that gradient. The source
+images are standard public-domain / permissively-licensed test photographs bundled
+with scikit-image (<span class="mono">skimage.data</span>); no personal, private,
+or scraped data is used, in keeping with the IA data-use policy.</p>
+<div class="fig">
+{{EXTERNAL_GALLERY}}
+<div class="cap">External (non-dataset) photographs reconstructed from a single uploaded
+gradient each: original (left) &rarr; server's reconstruction (right). The
+32&times;32 blockiness is the client model's input resolution, not a limit of the
+attack &mdash; higher-resolution reconstructions follow directly with larger
+models (Geiping et&nbsp;al., 2020), bounded here only by the 4&nbsp;GB GPU.</div>
+</div>
+<table>
+<tr><th>Private photograph</th><th>Label recovered</th><th>PSNR (dB)</th><th>SSIM</th></tr>
+{{EXTERNAL_ROWS}}
+</table>
+<div class="tcap">The attack reconstructs out-of-distribution images &mdash; including a
+human face &mdash; from the gradient alone, demonstrating that the privacy failure
+is intrinsic to gradient sharing, not specific to the training dataset.</div>
+
 <h2>5&nbsp;&nbsp;Evaluation, Comparison and Critical Analysis</h2>
 
 <h3>5.1&nbsp;&nbsp;Privacy&ndash;utility trade-off of the defences</h3>

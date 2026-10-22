@@ -120,6 +120,15 @@ whatever private image sits there.
 python src/attacks/gradient_inversion.py --image-id 6 --out results/my_bird
 ```
 
+### Attack photos that aren't in the dataset (incl. a person's face)
+Proves the leakage is intrinsic to gradient-sharing, not specific to CIFAR-10. It
+reconstructs standard public-domain test photos (a person, a cat, a coffee cup, a
+rocket) from the gradient alone:
+```bash
+python src/attacks/external_image_attack.py --iters 2800 --restarts 2
+# results + metrics -> results/external_images/
+```
+
 ---
 
 ## Reproduce *everything* in the reports
@@ -137,6 +146,7 @@ All randomness is seeded, so the numbers in the reports come back the same.
 |---|---|
 | `src/attacks/gradient_inversion.py` | The gradient-inversion attack (cosine + TV + iDLG) |
 | `src/attacks/membership_inference.py` | LiRA membership-inference attack + baselines |
+| `src/attacks/external_image_attack.py` | Same attack on non-dataset photos (incl. a person) |
 | `src/defenses/gradient_defenses.py` | DP noise, local-DP, pruning, quantization |
 | `src/federated_demo.py` | Scripted one-round FL demo (the recorded hero attack) |
 | `src/run_defense_sweep.py` | Privacy–utility sweep of every defence |

@@ -1,0 +1,12 @@
+{
+  "name": "chelsea",
+  "caption": "a cat",
+  "assigned_label": 3,
+  "recovered_label": 3,
+  "label_correct": true,
+  "seconds": 52.5,
+  "mse": 0.0019429175881668925,
+  "psnr_db": 27.115456202769117,
+  "ssim": 0.8488790988922119,
+  "lpips": 0.027122709900140762
+}
